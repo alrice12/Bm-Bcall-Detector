@@ -8,6 +8,7 @@ Outputs an XML file with the start time of individual B calls
 ## Notes:
 1. This code if for use with xwavs. See the [Wiki](https://github.com/alrice12/Bm-Bcall-Detector/wiki) for a tutorial on running the code
 2. If you have wavs, use the [BlueWhaleBcall-Detector](https://github.com/MarineBioAcousticsRC/Triton/tree/master/Remoras/BlueWhaleBcall-Detector)
+3. This detector should eventually be turned into an official [Triton](https://github.com/MarineBioAcousticsRC/Triton.git) remora
 
 ## Reference:
 
