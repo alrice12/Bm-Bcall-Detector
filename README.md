@@ -1,4 +1,6 @@
-# Bm-Bcall-Detector
+![MBARC_logos_mod](https://user-images.githubusercontent.com/54909460/178321398-1af754d7-38cb-4a7f-9c47-fdfeb6151b9b.jpg)
+
+# Bm-Bcall-Detector        
 Automatically detects blue whale B calls using spectrogram correlation
 
 Detects blue whale B calls by matching spectrograms of the sound recording in [Triton](https://github.com/MarineBioAcousticsRC/Triton.git) to a template spectrogram of a blue whale call, called the kernel. This template matches the third harmonic of a typical blue whale B call and must be updated within and between years.
