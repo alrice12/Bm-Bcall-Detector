@@ -1,0 +1,6 @@
+%2007-SOCAL site E Average		
+startF    = [49.63 48.97 48.33 47.97];	% Hz	
+endF      = [48.97 48.33 47.97 47.04];	% Hz	
+startT    = [0 1.5 3 4.5];		% s
+endT      = [1.5 3 4.5 10];	% s	
+bandwidth = 2.0;	% Hz	

@@ -1,0 +1,892 @@
+<html>
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+<meta name=Generator content="Microsoft Word 10 (filtered)">
+<title>Appendix A3- Software Routines (*</title>
+
+<style>
+<!--
+ /* Font Definitions */
+ @font-face
+	{font-family:"MS Mincho";
+	panose-1:2 2 6 9 4 2 5 8 3 4;}
+@font-face
+	{font-family:"\@MS Mincho";
+	panose-1:2 2 6 9 4 2 5 8 3 4;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:12.0pt;
+	font-family:"Times New Roman";}
+h1
+	{margin-top:12.0pt;
+	margin-right:0in;
+	margin-bottom:3.0pt;
+	margin-left:0in;
+	page-break-after:avoid;
+	font-size:16.0pt;
+	font-family:Arial;}
+span.heading1char
+	{font-family:Arial;
+	font-weight:bold;}
+@page Section1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.25in 1.0in 1.25in;}
+div.Section1
+	{page:Section1;}
+-->
+</style>
+
+</head>
+
+<body lang=EN-US>
+
+<div class=Section1>
+
+<h1><a name="_Toc174951420">Appendix A3- Software Routines (*.m files)</a></h1>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<table class=MsoNormalTable border=0 cellspacing=0 cellpadding=0
+ style='border-collapse:collapse'>
+ <tr>
+  <td width=157 style='width:117.9pt;border:solid windowtext 1.0pt;padding:
+  0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><b>Name</b></p>
+  </td>
+  <td width=433 style='width:324.9pt;border:solid windowtext 1.0pt;border-left:
+  none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><b>Description</b></p>
+  </td>
+ </tr>
+ <tr>
+  <td width=157 style='width:117.9pt;border:solid windowtext 1.0pt;border-top:
+  none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>audvidplayer</p>
+  </td>
+  <td width=433 style='width:324.9pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>Play sound of DATA vector (ie plotted data only)</p>
+  </td>
+ </tr>
+ <tr>
+  <td width=157 style='width:117.9pt;border:solid windowtext 1.0pt;border-top:
+  none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>bin2xwav</p>
+  </td>
+  <td width=433 style='width:324.9pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>Convert *.bin (ARP binary) files into *.x.wav files</p>
+  </td>
+ </tr>
+ <tr>
+  <td width=157 style='width:117.9pt;border:solid windowtext 1.0pt;border-top:
+  none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>calc_ltsa</p>
+  </td>
+  <td width=433 style='width:324.9pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>Calculate spectral averages and save to ltsa file</p>
+  </td>
+ </tr>
+ <tr>
+  <td width=157 style='width:117.9pt;border:solid windowtext 1.0pt;border-top:
+  none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>check_dirlist_times</p>
+  </td>
+  <td width=433 style='width:324.9pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>Get recording parameters and run difftime_dirlist for one
+  file or whole directory&nbsp; </p>
+  </td>
+ </tr>
+ <tr>
+  <td width=157 style='width:117.9pt;border:solid windowtext 1.0pt;border-top:
+  none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>check_ltsa_time</p>
+  </td>
+  <td width=433 style='width:324.9pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>Check to see if plot time is within file limits</p>
+  </td>
+ </tr>
+ <tr>
+  <td width=157 style='width:117.9pt;border:solid windowtext 1.0pt;border-top:
+  none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>check_time</p>
+  </td>
+  <td width=433 style='width:324.9pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>Check time of start of plot based on PARAMS.plot.dvec time</p>
+  </td>
+ </tr>
+ <tr>
+  <td width=157 style='width:117.9pt;border:solid windowtext 1.0pt;border-top:
+  none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>ck_ltsaparams</p>
+  </td>
+  <td width=433 style='width:324.9pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>Check user defined ltsa parameters and adjusts/gives suggestions
+  of better parameters so that there is integer number of averages per xwav
+  file, called by mk_ltsa.&nbsp; </p>
+  </td>
+ </tr>
+ <tr>
+  <td width=157 style='width:117.9pt;border:solid windowtext 1.0pt;border-top:
+  none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>control</p>
+  </td>
+  <td width=433 style='width:324.9pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>Toggle on/off control window pull-down menus and buttons
+  set and implement newtime, newtseg, newstep, coordinate display</p>
+  </td>
+ </tr>
+ <tr>
+  <td width=157 style='width:117.9pt;border:solid windowtext 1.0pt;border-top:
+  none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>control_ltsa</p>
+  </td>
+  <td width=433 style='width:324.9pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>Toggle on/off control window pull-down menus and buttons
+  set and implement newtime, newtseg, newstep, coordinate display</p>
+  </td>
+ </tr>
+ <tr>
+  <td width=157 style='width:117.9pt;border:solid windowtext 1.0pt;border-top:
+  none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>coorddisp</p>
+  </td>
+  <td width=433 style='width:324.9pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>Display cursor values from Plot window in message window</p>
+  </td>
+ </tr>
+ <tr>
+  <td width=157 style='width:117.9pt;border:solid windowtext 1.0pt;border-top:
+  none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>decimatexwav</p>
+  </td>
+  <td width=433 style='width:324.9pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>Decimate XWAV file</p>
+  </td>
+ </tr>
+ <tr>
+  <td width=157 style='width:117.9pt;border:solid windowtext 1.0pt;border-top:
+  none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>decimatexwav_dir</p>
+  </td>
+  <td width=433 style='width:324.9pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>Decimate all XWAV files in directory</p>
+  </td>
+ </tr>
+ <tr>
+  <td width=157 style='width:117.9pt;border:solid windowtext 1.0pt;border-top:
+  none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>difftime_dirlist</p>
+  </td>
+  <td width=433 style='width:324.9pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>This function reads raw HARP files disk directory and
+  compares times between directory entries, used for data quality checking</p>
+  </td>
+ </tr>
+ <tr>
+  <td width=157 style='width:117.9pt;border:solid windowtext 1.0pt;border-top:
+  none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>disp_headSummary</p>
+  </td>
+  <td width=433 style='width:324.9pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>Display PARAMS.headall structure in useful format</p>
+  </td>
+ </tr>
+ <tr>
+  <td width=157 style='width:117.9pt;border:solid windowtext 1.0pt;border-top:
+  none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>disp_msg</p>
+  </td>
+  <td width=433 style='width:324.9pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>Display messages in message window</p>
+  </td>
+ </tr>
+ <tr>
+  <td width=157 style='width:117.9pt;border:solid windowtext 1.0pt;border-top:
+  none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>disp_pick</p>
+  </td>
+  <td width=433 style='width:324.9pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>Display pickxyz in message window</p>
+  </td>
+ </tr>
+ <tr>
+  <td width=157 style='width:117.9pt;border:solid windowtext 1.0pt;border-top:
+  none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>displaybut</p>
+  </td>
+  <td width=433 style='width:324.9pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>Display button operation</p>
+  </td>
+ </tr>
+ <tr>
+  <td width=157 style='width:117.9pt;border:solid windowtext 1.0pt;border-top:
+  none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>editHeader_psds</p>
+  </td>
+  <td width=433 style='width:324.9pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>Used to change time or other header values for psds files
+  (not used)</p>
+  </td>
+ </tr>
+ <tr>
+  <td width=157 style='width:117.9pt;border:solid windowtext 1.0pt;border-top:
+  none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>editHeader_xwav</p>
+  </td>
+  <td width=433 style='width:324.9pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>Used to change time or other header values for XWAV files</p>
+  </td>
+ </tr>
+ <tr>
+  <td width=157 style='width:117.9pt;border:solid windowtext 1.0pt;border-top:
+  none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>filepd</p>
+  </td>
+  <td width=433 style='width:324.9pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>File pull-down menu options/operations</p>
+  </td>
+ </tr>
+ <tr>
+  <td width=157 style='width:117.9pt;border:solid windowtext 1.0pt;border-top:
+  none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>get_headers</p>
+  </td>
+  <td width=433 style='width:324.9pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>Open data files and read headers</p>
+  </td>
+ </tr>
+ <tr>
+  <td width=157 style='width:117.9pt;border:solid windowtext 1.0pt;border-top:
+  none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>get_ltsadir</p>
+  </td>
+  <td width=433 style='width:324.9pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>Get directory of WAV/XWAV files</p>
+  </td>
+ </tr>
+ <tr>
+  <td width=157 style='width:117.9pt;border:solid windowtext 1.0pt;border-top:
+  none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>get_ltsaparams</p>
+  </td>
+  <td width=433 style='width:324.9pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>Get parameters needed for generating LTSA’s from user</p>
+  </td>
+ </tr>
+ <tr>
+  <td width=157 style='width:117.9pt;border:solid windowtext 1.0pt;border-top:
+  none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>get_recordingparams</p>
+  </td>
+  <td width=433 style='width:324.9pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>Get recording parameters needed for checking dirlist times</p>
+  </td>
+ </tr>
+ <tr>
+  <td width=157 style='width:117.9pt;border:solid windowtext 1.0pt;border-top:
+  none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>getIndexBin</p>
+  </td>
+  <td width=433 style='width:324.9pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>Get time bin index in LTSA plot</p>
+  </td>
+ </tr>
+ <tr>
+  <td width=157 style='width:117.9pt;border:solid windowtext 1.0pt;border-top:
+  none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>helppd</p>
+  </td>
+  <td width=433 style='width:324.9pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>Help pull-down menu</p>
+  </td>
+ </tr>
+ <tr>
+  <td width=157 style='width:117.9pt;border:solid windowtext 1.0pt;border-top:
+  none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>hrp2wav</p>
+  </td>
+  <td width=433 style='width:324.9pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>Convert *.hrp files into *.wav files</p>
+  </td>
+ </tr>
+ <tr>
+  <td width=157 style='width:117.9pt;border:solid windowtext 1.0pt;border-top:
+  none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>hrp2xwav</p>
+  </td>
+  <td width=433 style='width:324.9pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>Convert *.hrp files into *.x.wav files</p>
+  </td>
+ </tr>
+ <tr>
+  <td width=157 style='width:117.9pt;border:solid windowtext 1.0pt;border-top:
+  none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>init_coorddisp</p>
+  </td>
+  <td width=433 style='width:324.9pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>Initializing cursor values</p>
+  </td>
+ </tr>
+ <tr>
+  <td width=157 style='width:117.9pt;border:solid windowtext 1.0pt;border-top:
+  none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>init_ltsadata</p>
+  </td>
+  <td width=433 style='width:324.9pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>Initializing ltsa data stuff</p>
+  </td>
+ </tr>
+ <tr>
+  <td width=157 style='width:117.9pt;border:solid windowtext 1.0pt;border-top:
+  none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>init_ltsaparams</p>
+  </td>
+  <td width=433 style='width:324.9pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>Initializing ltsa parameters</p>
+  </td>
+ </tr>
+ <tr>
+  <td width=157 style='width:117.9pt;border:solid windowtext 1.0pt;border-top:
+  none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>initcontrol</p>
+  </td>
+  <td width=433 style='width:324.9pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>Initializing control window GUI</p>
+  </td>
+ </tr>
+ <tr>
+  <td width=157 style='width:117.9pt;border:solid windowtext 1.0pt;border-top:
+  none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>initdata</p>
+  </td>
+  <td width=433 style='width:324.9pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>Initializing data and timing info</p>
+  </td>
+ </tr>
+</table>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<table class=MsoNormalTable border=0 cellspacing=0 cellpadding=0
+ style='border-collapse:collapse'>
+ <tr>
+  <td width=157 style='width:117.9pt;border:solid windowtext 1.0pt;padding:
+  0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><b>Name</b></p>
+  </td>
+  <td width=433 style='width:324.9pt;border:solid windowtext 1.0pt;border-left:
+  none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><b>Description</b></p>
+  </td>
+ </tr>
+ <tr>
+  <td width=157 style='width:117.9pt;border:solid windowtext 1.0pt;border-top:
+  none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>initparams</p>
+  </td>
+  <td width=433 style='width:324.9pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>Initializing parameters</p>
+  </td>
+ </tr>
+ <tr>
+  <td width=157 style='width:117.9pt;border:solid windowtext 1.0pt;border-top:
+  none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>initpulldowns</p>
+  </td>
+  <td width=433 style='width:324.9pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>Generate figure pull-down menus</p>
+  </td>
+ </tr>
+ <tr>
+  <td width=157 style='width:117.9pt;border:solid windowtext 1.0pt;border-top:
+  none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>initwins</p>
+  </td>
+  <td width=433 style='width:324.9pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>Initialize plot, control and command (display) windows</p>
+  </td>
+ </tr>
+ <tr>
+  <td width=157 style='width:117.9pt;border:solid windowtext 1.0pt;border-top:
+  none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>little2big_2byte</p>
+  </td>
+  <td width=433 style='width:324.9pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>Reads N x 2 array (a) and converts the 2 values from each row
+  from little endian format to big endian format – array (b)</p>
+  </td>
+ </tr>
+ <tr>
+  <td width=157 style='width:117.9pt;border:solid windowtext 1.0pt;border-top:
+  none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>little2big_4byte</p>
+  </td>
+  <td width=433 style='width:324.9pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>Reads N x 4 array (a) and converts the 4 values from each
+  row from little endian format to big endian format – array (b)</p>
+  </td>
+ </tr>
+ <tr>
+  <td width=157 style='width:117.9pt;border:solid windowtext 1.0pt;border-top:
+  none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>logfmap</p>
+  </td>
+  <td width=433 style='width:324.9pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>Return a matrix for premultiplying spectrograms to map the
+  rows into a log frequency space</p>
+  </td>
+ </tr>
+ <tr>
+  <td width=157 style='width:117.9pt;border:solid windowtext 1.0pt;border-top:
+  none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>make_multixwav</p>
+  </td>
+  <td width=433 style='width:324.9pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>Script to run write_hrp2xwavs over many hrp files to make xwavs</p>
+  </td>
+ </tr>
+ <tr>
+  <td width=157 style='width:117.9pt;border:solid windowtext 1.0pt;border-top:
+  none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>mk_headSummary</p>
+  </td>
+  <td width=433 style='width:324.9pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>Make Summary of header values</p>
+  </td>
+ </tr>
+ <tr>
+  <td width=157 style='width:117.9pt;border:solid windowtext 1.0pt;border-top:
+  none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>mk_ltsa</p>
+  </td>
+  <td width=433 style='width:324.9pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>Make LTSAs from XWAV files in a directory</p>
+  </td>
+ </tr>
+ <tr>
+  <td width=157 style='width:117.9pt;border:solid windowtext 1.0pt;border-top:
+  none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>mkspecgram</p>
+  </td>
+  <td width=433 style='width:324.9pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>Make spectrogram plot from DATA</p>
+  </td>
+ </tr>
+ <tr>
+  <td width=157 style='width:117.9pt;border:solid windowtext 1.0pt;border-top:
+  none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>motion</p>
+  </td>
+  <td width=433 style='width:324.9pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>Control motion of DATA plot with push button in control
+  window</p>
+  </td>
+ </tr>
+ <tr>
+  <td width=157 style='width:117.9pt;border:solid windowtext 1.0pt;border-top:
+  none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>motion_ltsa</p>
+  </td>
+  <td width=433 style='width:324.9pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>Control motion of DATA plot with push button in control
+  window</p>
+  </td>
+ </tr>
+ <tr>
+  <td width=157 style='width:117.9pt;border:solid windowtext 1.0pt;border-top:
+  none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>multibin2xwav</p>
+  </td>
+  <td width=433 style='width:324.9pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>Convert multiple *.bin files to *.x.wav files</p>
+  </td>
+ </tr>
+ <tr>
+  <td width=157 style='width:117.9pt;border:solid windowtext 1.0pt;border-top:
+  none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>obs2xwav</p>
+  </td>
+  <td width=433 style='width:324.9pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>Convert *.obs files into *.x.wav files</p>
+  </td>
+ </tr>
+ <tr>
+  <td width=157 style='width:117.9pt;border:solid windowtext 1.0pt;border-top:
+  none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>pickxwav</p>
+  </td>
+  <td width=433 style='width:324.9pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>Turn on picking time in LTSA files and open corresponding xwav
+  file (i.e. zoom in)</p>
+  </td>
+ </tr>
+ <tr>
+  <td width=157 style='width:117.9pt;border:solid windowtext 1.0pt;border-top:
+  none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>pickxyz</p>
+  </td>
+  <td width=433 style='width:324.9pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>Pick x, y, z cursor data from plot window</p>
+  </td>
+ </tr>
+ <tr>
+  <td width=157 style='width:117.9pt;border:solid windowtext 1.0pt;border-top:
+  none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>plot_ltsa</p>
+  </td>
+  <td width=433 style='width:324.9pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>Plot LTSA data in plot window</p>
+  </td>
+ </tr>
+ <tr>
+  <td width=157 style='width:117.9pt;border:solid windowtext 1.0pt;border-top:
+  none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>plot_specgram</p>
+  </td>
+  <td width=433 style='width:324.9pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>Plot spectrogram of data in plot window</p>
+  </td>
+ </tr>
+ <tr>
+  <td width=157 style='width:117.9pt;border:solid windowtext 1.0pt;border-top:
+  none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>plot_spectra</p>
+  </td>
+  <td width=433 style='width:324.9pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>Plot spectra of data in plot window</p>
+  </td>
+ </tr>
+ <tr>
+  <td width=157 style='width:117.9pt;border:solid windowtext 1.0pt;border-top:
+  none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>plot_timeseries</p>
+  </td>
+  <td width=433 style='width:324.9pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>Plot time series of data in plot window</p>
+  </td>
+ </tr>
+ <tr>
+  <td width=157 style='width:117.9pt;border:solid windowtext 1.0pt;border-top:
+  none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>plot_triton</p>
+  </td>
+  <td width=433 style='width:324.9pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>Checks to see which plots are to be plotted and plots them</p>
+  </td>
+ </tr>
+ <tr>
+  <td width=157 style='width:117.9pt;border:solid windowtext 1.0pt;border-top:
+  none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>rdxwavhd</p>
+  </td>
+  <td width=433 style='width:324.9pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>Reads XWAV or *.wav file header</p>
+  </td>
+ </tr>
+ <tr>
+  <td width=157 style='width:117.9pt;border:solid windowtext 1.0pt;border-top:
+  none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>read_ltsadata</p>
+  </td>
+  <td width=433 style='width:324.9pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>Read LTSA data</p>
+  </td>
+ </tr>
+ <tr>
+  <td width=157 style='width:117.9pt;border:solid windowtext 1.0pt;border-top:
+  none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>read_ltsahead</p>
+  </td>
+  <td width=433 style='width:324.9pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>Read LTSA header and directories</p>
+  </td>
+ </tr>
+ <tr>
+  <td width=157 style='width:117.9pt;border:solid windowtext 1.0pt;border-top:
+  none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>read_rawHARPdata</p>
+  </td>
+  <td width=433 style='width:324.9pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>Reads one raw HARP disk data file, ~60000 sectors the
+  first timing header will be read and used.&nbsp; </p>
+  </td>
+ </tr>
+ <tr>
+  <td width=157 style='width:117.9pt;border:solid windowtext 1.0pt;border-top:
+  none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>read_rawHARPdir</p>
+  </td>
+  <td width=433 style='width:324.9pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>Calls the function read_rawHARPhead to get disk header
+  values then reads the directory list, rearranges values and puts values in
+  global PARAMS variable</p>
+  </td>
+ </tr>
+ <tr>
+  <td width=157 style='width:117.9pt;border:solid windowtext 1.0pt;border-top:
+  none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>read_rawHARPhead</p>
+  </td>
+  <td width=433 style='width:324.9pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>Read raw HARP disk header info from raw HARP datafile (*.hrp)
+  and put disk header info into global variable structure PARAMS</p>
+  </td>
+ </tr>
+ <tr>
+  <td width=157 style='width:117.9pt;border:solid windowtext 1.0pt;border-top:
+  none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>read_xwavHDRfile</p>
+  </td>
+  <td width=433 style='width:324.9pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>Hdrfile for hrp2xwavs input for generating xwavs from hrp
+  files </p>
+  </td>
+ </tr>
+ <tr>
+  <td width=157 style='width:117.9pt;border:solid windowtext 1.0pt;border-top:
+  none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>readseg</p>
+  </td>
+  <td width=433 style='width:324.9pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>Read a segment of data from opened file</p>
+  </td>
+ </tr>
+ <tr>
+  <td width=157 style='width:117.9pt;border:solid windowtext 1.0pt;border-top:
+  none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>timenum</p>
+  </td>
+  <td width=433 style='width:324.9pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>Convert string time in format made from timestr.m (used to
+  solve rounding problems created by datestr.m and outputs msecs and usecs)</p>
+  </td>
+ </tr>
+ <tr>
+  <td width=157 style='width:117.9pt;border:solid windowtext 1.0pt;border-top:
+  none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><b>Name</b></p>
+  </td>
+  <td width=433 style='width:324.9pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><b>Description</b></p>
+  </td>
+ </tr>
+ <tr>
+  <td width=157 style='width:117.9pt;border:solid windowtext 1.0pt;border-top:
+  none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>timestr</p>
+  </td>
+  <td width=433 style='width:324.9pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>Can be used instead of datestr.m to solve the rounding
+  problems created by datestr.m and outputs msecs and usecs</p>
+  </td>
+ </tr>
+ <tr>
+  <td width=157 style='width:117.9pt;border:solid windowtext 1.0pt;border-top:
+  none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>toolpd</p>
+  </td>
+  <td width=433 style='width:324.9pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>Tools pull-down menu operation</p>
+  </td>
+ </tr>
+ <tr>
+  <td width=157 style='width:117.9pt;border:solid windowtext 1.0pt;border-top:
+  none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>triton</p>
+  </td>
+  <td width=433 style='width:324.9pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>MAIN</p>
+  </td>
+ </tr>
+ <tr>
+  <td width=157 style='width:117.9pt;border:solid windowtext 1.0pt;border-top:
+  none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>write_hrp2wavs</p>
+  </td>
+  <td width=433 style='width:324.9pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>Writes multiple XWAV (*.x.wav) files(~1GB) from single raw
+  HARP disk file (*.hrp).&nbsp; The HRP files are essentially images if raw
+  disks</p>
+  </td>
+ </tr>
+ <tr>
+  <td width=157 style='width:117.9pt;border:solid windowtext 1.0pt;border-top:
+  none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>write_ltsahead</p>
+  </td>
+  <td width=433 style='width:324.9pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>Setup values for ltsa file and write header &amp;
+  directories for new ltsa file</p>
+  </td>
+ </tr>
+ <tr>
+  <td width=157 style='width:117.9pt;border:solid windowtext 1.0pt;border-top:
+  none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>write_XWAVhead</p>
+  </td>
+  <td width=433 style='width:324.9pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>Write XWAV header values to output files</p>
+  </td>
+ </tr>
+ <tr>
+  <td width=157 style='width:117.9pt;border:solid windowtext 1.0pt;border-top:
+  none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>wrxwavhd</p>
+  </td>
+  <td width=433 style='width:324.9pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>Write XWAV header values to output files</p>
+  </td>
+ </tr>
+</table>
+
+<p class=MsoNormal>&nbsp;</p>
+
+</div>
+
+</body>
+
+</html>

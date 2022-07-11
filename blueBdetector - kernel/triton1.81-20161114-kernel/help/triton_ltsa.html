@@ -1,0 +1,503 @@
+<html>
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+<meta name=Generator content="Microsoft Word 10 (filtered)">
+<title>Long Term Spectral Avera (LTSA)</title>
+
+<style>
+<!--
+ /* Font Definitions */
+ @font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:"MS Mincho";
+	panose-1:2 2 6 9 4 2 5 8 3 4;}
+@font-face
+	{font-family:"\@MS Mincho";
+	panose-1:2 2 6 9 4 2 5 8 3 4;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:12.0pt;
+	font-family:"Times New Roman";}
+h1
+	{margin-top:12.0pt;
+	margin-right:0in;
+	margin-bottom:3.0pt;
+	margin-left:0in;
+	page-break-after:avoid;
+	font-size:16.0pt;
+	font-family:Arial;}
+h3
+	{margin-top:12.0pt;
+	margin-right:0in;
+	margin-bottom:3.0pt;
+	margin-left:0in;
+	page-break-after:avoid;
+	font-size:13.0pt;
+	font-family:Arial;}
+h6
+	{margin-top:12.0pt;
+	margin-right:0in;
+	margin-bottom:3.0pt;
+	margin-left:0in;
+	font-size:11.0pt;
+	font-family:"Times New Roman";}
+pre
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:12.0pt;
+	font-family:"Courier New";}
+p.tableheading, li.tableheading, div.tableheading
+	{margin:0in;
+	margin-bottom:.0001pt;
+	text-align:center;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	font-weight:bold;
+	font-style:italic;}
+span.heading3charchar
+	{font-family:Arial;
+	font-weight:bold;}
+span.heading1char
+	{font-family:Arial;
+	font-weight:bold;}
+span.htmlpreformattedchar
+	{font-family:"Courier New";}
+span.msoins0
+	{text-decoration:underline;}
+span.msodel0
+	{color:red;
+	text-decoration:line-through;}
+@page Section1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.25in 1.0in 1.25in;}
+div.Section1
+	{page:Section1;}
+ /* List Definitions */
+ ol
+	{margin-bottom:0in;}
+ul
+	{margin-bottom:0in;}
+-->
+</style>
+
+</head>
+
+<body lang=EN-US>
+
+<div class=Section1>
+
+<h1><a name="_Toc174951401">Long Term Spectral Avera (LTSA)</a></h1>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<h3><a name="_Toc174951402"></a><a name="_Toc156544123"></a><a
+name="_Toc156372794"></a><a name="_Toc156372636"></a><a name="ltsaovr"></a>LTSA
+Overview</h3>
+
+<p class=MsoNormal>LTSA (Long-Term Spectral Average) plots allow large time series
+data sets to be viewed and analyzed including searching for and noting
+acoustically significant events, like whale calls. In 2006, each HARP
+(High-frequency Acoustic Recording Package) deployment was capable of producing
+about 2000 XWAV files (~ 2 TB total), but viewing and analyzing each one of
+these XWAV files is not practical. LTSA plots provide a means of presenting an
+overview of these large data sets in a compressed format and allow quick
+linking to noteworthy events in the finer time scale XWAV data, which
+originally were used to generate the LTSA plots.</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>An LTSA of time-series data is essentially a spectrogram
+(three dimensional time-frequency-energy plot) where each frequency spectrum
+plotted along time is averaged over a longer period than one windowed frame of
+a Fast-Fourier Transform (FFT). The quantization time of an LTSA is defined as
+the duration over which consecutive single-window spectrum are averaged.&nbsp;
+The averaged spectra are then plotted sequentially with energy shown as color. </p>
+
+<p class=MsoNormal><span style='font-size:11.0pt'>&nbsp;</span></p>
+
+<p class=MsoNormal align=center style='text-align:center'><span
+style='font-size:11.0pt'><img width=603 height=456
+src="triton_ltsa_files/image001.jpg"></span></p>
+
+<p class=MsoNormal><span style='font-size:11.0pt'>&nbsp;</span></p>
+
+<p class=MsoNormal>Above is an example of a 24 hour LTSA from 35 GB of data
+sampled at 200 kHz off the shore of Southern California.&nbsp; Notice how well
+ship echosounders and dolphin clicks and whistles can be identified, and
+periods when the region is relatively quiet.&nbsp; </p>
+
+<p class=MsoNormal align=center style='text-align:center'><span
+style='font-size:11.0pt'><img width=360 height=304
+src="triton_ltsa_files/image002.jpg"></span></p>
+
+<p class=MsoNormal align=center style='text-align:center'><span
+style='font-size:11.0pt'>&nbsp;</span></p>
+
+<p class=MsoNormal align=center style='text-align:center'><span
+style='font-size:11.0pt'><img width=527 height=146
+src="triton_ltsa_files/image003.jpg"></span></p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>The LTSA plot above is from the first two hours of the
+previous figure, and the three plots A, B, and C are spectrograms from the
+XWAVs used to generate the LTSA at the corresponding times A, B, and V in the
+LTSA plot, notice the differences.&nbsp; </p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<h3><a name="ltsacreate">Ceating LTSA Files</a></h3>
+
+<table class=MsoNormalTable border=0 cellspacing=0 cellpadding=0
+ style='border-collapse:collapse'>
+ <thead>
+  <tr>
+   <td width=294 valign=top style='width:220.5pt;padding:0in 0in 0in 0in'>
+   <ul style='margin-top:0in' type=disc>
+    <li class=MsoNormal style='layout-grid-mode:char'>Select “Make LTSA from
+        Directory of Files” from Tools pull-down menu in Control Window.</li>
+   </ul>
+   </td>
+   <td width=282 valign=top style='width:211.4pt;padding:0in 0in 0in 0in'>
+   <p class=tableheading align=left style='text-align:left;layout-grid-mode:
+   char'><img width=198 height=143 src="triton_ltsa_files/image004.jpg"></p>
+   <p class=tableheading align=left style='text-align:left;layout-grid-mode:
+   char'>&nbsp;</p>
+   </td>
+  </tr>
+  <tr>
+   <td width=294 valign=top style='width:220.5pt;padding:0in 0in 0in 0in'>
+   <ul style='margin-top:0in' type=disc>
+    <li class=MsoNormal style='layout-grid-mode:char'>Select file type, Type
+        ‘1’ for WAV files or ‘2’ for XWAV files.&nbsp; </li>
+   </ul>
+   </td>
+   <td width=282 valign=top style='width:211.4pt;padding:0in 0in 0in 0in'>
+   <p class=tableheading align=left style='text-align:left;layout-grid-mode:
+   char'><img width=184 height=96 src="triton_ltsa_files/image005.gif"></p>
+   <p class=tableheading align=left style='text-align:left;layout-grid-mode:
+   char'><span style='font-size:9.0pt;font-weight:normal'>&nbsp;</span></p>
+   </td>
+  </tr>
+  <tr>
+   <td width=294 valign=top style='width:220.5pt;padding:0in 0in 0in 0in'>
+   <ul style='margin-top:0in' type=disc>
+    <li class=MsoNormal style='layout-grid-mode:char'>Select directory where
+        the WAV or XWAV files are located.</li>
+   </ul>
+   <p class=MsoNormal style='layout-grid-mode:char'><span style='font-size:
+   11.0pt'>&nbsp;</span></p>
+   <p class=MsoNormal style='layout-grid-mode:char'><b><span style='font-size:
+   11.0pt'>&nbsp;</span></b></p>
+   </td>
+   <td width=282 valign=top style='width:211.4pt;padding:0in 0in 0in 0in'>
+   <p class=tableheading align=left style='text-align:left;layout-grid-mode:
+   char'><img width=276 height=299 src="triton_ltsa_files/image006.gif"></p>
+   <p class=tableheading align=left style='text-align:left;layout-grid-mode:
+   char'>&nbsp;</p>
+   </td>
+  </tr>
+  <tr>
+   <td width=294 valign=top style='width:220.5pt;padding:0in 0in 0in 0in'>
+   <ul style='margin-top:0in' type=disc>
+    <li class=MsoNormal>Set Long-Term Spectrogram Parameters </li>
+    <ul style='margin-top:0in' type=circle>
+     <li class=MsoNormal><b>Time Average</b> – length of time to average in
+         each frequency bin</li>
+     <li class=MsoNormal><b>Frequency Bin Size</b></li>
+     <li class=MsoNormal>Data source:</li>
+    </ul>
+   </ul>
+   <p class=MsoNormal style='margin-left:1.5in;text-indent:-.25in'><span
+   style='font-family:Symbol'>·</span><span style='font-size:7.0pt'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+   </span><b>1 = HARP</b></p>
+   <p class=MsoNormal style='margin-left:1.5in;text-indent:-.25in'><span
+   style='font-family:Symbol'>·</span><span style='font-size:7.0pt'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+   </span><b>2 = ARP</b></p>
+   <p class=MsoNormal style='margin-left:1.5in;text-indent:-.25in'><span
+   style='font-family:Symbol'>·</span><span style='font-size:7.0pt'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+   </span><b>3 = OBS</b></p>
+   <p class=MsoNormal style='margin-left:.25in;layout-grid-mode:char'><span
+   style='font-size:11.0pt'>&nbsp;</span></p>
+   </td>
+   <td width=282 valign=top style='width:211.4pt;padding:0in 0in 0in 0in'>
+   <p class=tableheading align=right style='text-align:right;layout-grid-mode:
+   char'><img width=276 height=195 src="triton_ltsa_files/image007.gif"></p>
+   <p class=tableheading align=left style='text-align:left;layout-grid-mode:
+   char'><span style='font-size:9.0pt;font-weight:normal'>&nbsp;</span></p>
+   </td>
+  </tr>
+  <tr>
+   <td width=576 colspan=2 valign=top style='width:431.9pt;padding:0in 0in 0in 0in'>
+   <p class=MsoNormal><b><i><u>IMPORTANT</u></i></b></p>
+   <p class=MsoNormal>LTSA parameters are typically data sample rate
+   dependent.&nbsp; The default parameters shown in the previous figure are for
+   broad-band data, from a HARP sampling at 200 kHz.&nbsp; For lower sample
+   rate ARP data (eg. 500 Hz or 1000 Hz), try the following or similar
+   parameters: </p>
+   <ul style='margin-top:0in' type=disc>
+    <li class=MsoNormal>Time Average length&nbsp;&nbsp;&nbsp;&nbsp; 120 seconds</li>
+    <li class=MsoNormal>Frequency Bin Size&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        1 Hz</li>
+    <li class=MsoNormal>Data
+        Source&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        2 (ARP)</li>
+   </ul>
+   <p class=tableheading align=left style='text-align:left;layout-grid-mode:
+   char'><span style='font-weight:normal;font-style:normal'>&nbsp;</span></p>
+   </td>
+  </tr>
+  <tr>
+   <td width=294 valign=top style='width:220.5pt;padding:0in 0in 0in 0in'>
+   <ul style='margin-top:0in' type=disc>
+    <li class=MsoNormal>Enter file name of LTSA output file. The file name
+        should have an *.ltsa extension.</li>
+   </ul>
+   <p class=MsoNormal style='margin-left:.25in'><span style='font-size:11.0pt'>&nbsp;</span></p>
+   <p class=MsoNormal style='margin-left:.25in'><span style='font-size:11.0pt'>&nbsp;</span></p>
+   <p class=MsoNormal style='margin-left:.25in'><span style='font-size:11.0pt'>&nbsp;</span></p>
+   <p class=MsoNormal style='margin-left:.25in'><span style='font-size:11.0pt'>&nbsp;</span></p>
+   <p class=MsoNormal style='margin-left:.25in'><span style='font-size:11.0pt'>&nbsp;</span></p>
+   </td>
+   <td width=282 valign=top style='width:211.4pt;padding:0in 0in 0in 0in'>
+   <p class=tableheading align=left style='text-align:left;layout-grid-mode:
+   char'><img width=280 height=179 src="triton_ltsa_files/image008.jpg"></p>
+   <p class=tableheading align=left style='text-align:left;layout-grid-mode:
+   char'><span style='font-size:9.0pt;font-weight:normal'>&nbsp;</span></p>
+   </td>
+  </tr>
+  <tr>
+   <td width=294 valign=top style='width:220.5pt;padding:0in 0in 0in 0in'>
+   <ul style='margin-top:0in' type=disc>
+    <li class=MsoNormal>Click Save</li>
+   </ul>
+   <p class=MsoNormal>&nbsp;</p>
+   </td>
+   <td width=282 valign=top style='width:211.4pt;padding:0in 0in 0in 0in'>
+   <p class=tableheading align=left style='text-align:left;layout-grid-mode:
+   char'>&nbsp;</p>
+   </td>
+  </tr>
+  <tr>
+   <td width=294 valign=top style='width:220.5pt;padding:0in 0in 0in 0in'>
+   <ul style='margin-top:0in' type=disc>
+    <li class=MsoNormal style='margin-bottom:12.0pt'>The amount of time
+        required to create the LTSA depends upon the parameters selected, the
+        type and quantity of data to be processed, and the speed of the
+        computer.&nbsp; As an example, it requires approximately 4 hours to
+        process 3 days of 200 kHz 16-bit data on a “mid-range” computer built
+        in 2005. </li>
+    <li class=MsoNormal>MATLAB will be ‘busy’ until the LTSA file is completed
+        at which time the beginning of the LTSA plot should be displayed in the
+        Plot Window.&nbsp; </li>
+   </ul>
+   <p class=MsoNormal>&nbsp;</p>
+   </td>
+   <td width=282 valign=top style='width:211.4pt;padding:0in 0in 0in 0in'>
+   <p class=tableheading align=left style='text-align:left;layout-grid-mode:
+   char'>&nbsp;</p>
+   </td>
+  </tr>
+ </thead>
+</table>
+
+<h3>&nbsp;</h3>
+
+<span style='font-size:13.0pt;font-family:Arial'><br clear=all
+style='page-break-before:always'>
+</span>
+
+<h3><a name="_Toc155756801"></a><a name="_Toc174951404"></a><a
+name="_Toc156544124"></a><a name="_Toc156372795"></a><a name="ltsause"></a>Using
+LTSA files</h3>
+
+<p class=MsoNormal>After an LTSA file is created, (see previous section) the
+LTSA plot will be displayed in the Plot Window and the first step below can be
+omitted.&nbsp; </p>
+
+<h6>Selecting an LTSA file</h6>
+
+<ul style='margin-top:0in' type=disc>
+ <li class=MsoNormal>To open an LTSA file, select Open LTSA File from the File
+     pull-down menu in the Control Window.</li>
+</ul>
+
+<p class=MsoNormal align=center style='text-align:center'><img width=170
+height=181 src="triton_ltsa_files/image009.gif"></p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<ul style='margin-top:0in' type=disc>
+ <li class=MsoNormal>After opening the file, the Control Window will be
+     populated with LTSA options only (light green), and the Plot Window will
+     display the beginning of the LTSA plot.</li>
+</ul>
+
+<pre style='margin-left:.25in'><span style='font-size:11.0pt;font-family:"Times New Roman"'>&nbsp;</span></pre>
+
+<table class=MsoNormalTable border=0 cellspacing=0 cellpadding=0
+ style='border-collapse:collapse'>
+ <tr>
+  <td width=288 valign=top style='width:215.8pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><img width=187
+  height=319 src="triton_ltsa_files/image010.jpg"></p>
+  <p class=MsoNormal>&nbsp;</p>
+  </td>
+  <td width=303 valign=top style='width:227.0pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><img width=276
+  height=319 src="triton_ltsa_files/image011.gif"></p>
+  <p class=MsoNormal>&nbsp;</p>
+  </td>
+ </tr>
+</table>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<ul style='margin-top:0in' type=disc>
+ <li class=MsoNormal>Navigate through the LTSA in the Plot Window using the
+     buttons in the Control Window. </li>
+</ul>
+
+<ul style='margin-top:0in' type=disc>
+ <ul style='margin-top:0in' type=circle>
+  <li class=MsoNormal><img width=41 height=25
+      src="triton_ltsa_files/image012.gif"><img width=41 height=25
+      src="triton_ltsa_files/image013.gif">&nbsp;- Advance one frame left or
+      right.</li>
+  <li class=MsoNormal><img width=41 height=25
+      src="triton_ltsa_files/image014.gif"><img width=43 height=26
+      src="triton_ltsa_files/image015.gif">&nbsp;- Automated advancement
+      through frames. Click the <img width=38 height=23
+      src="triton_ltsa_files/image016.gif">&nbsp;button to end automated
+      advancement. Time of plot will be updated on the Control Window Plot
+      Start Time. </li>
+ </ul>
+</ul>
+
+<ul style='margin-top:0in' type=disc>
+ <li class=MsoNormal><img width=13 height=22
+     src="triton_ltsa_files/image018.jpg"><img width=13 height=23
+     src="triton_ltsa_files/image019.jpg">- Jump to the beginning or end of the
+     data.</li>
+</ul>
+
+<p class=MsoNormal style='margin-left:.25in'>&nbsp;</p>
+
+<h6><span style='font-size:12.0pt'>LTSA Plot Control Settings</span></h6>
+
+<p class=MsoNormal>LTSA Plot settings can be adjusted in the Control Window.
+Additional options, not shown here, exist for color scheme, brightness, and
+contrast – see preceding section for Control Window.</p>
+
+<p class=MsoNormal>For example,</p>
+
+<ul style='margin-top:0in' type=disc>
+ <li class=MsoNormal>Plot Length = 2 hrs </li>
+ <li class=MsoNormal>Time Step = -1 hrs (Plot advances full time-plot length
+     forward when stepping.) </li>
+ <li class=MsoNormal>Plot Frequency = 0 to 100,000 Hz. </li>
+</ul>
+
+<h6>Plot Details</h6>
+
+<p class=MsoNormal>Details about the LTSA plot are displayed on the LTSA Plot
+Window. This information is set when the LTSA file is generated. </p>
+
+<ul style='margin-top:0in' type=disc>
+ <li class=MsoNormal>Fs – sample rate </li>
+ <li class=MsoNormal>Tave – time average used to create LTSA. In this example,
+     5 seconds of data were averaged into one time bin. </li>
+ <li class=MsoNormal>NFFT – FFT size </li>
+ <li class=MsoNormal>B - brightness </li>
+ <li class=MsoNormal>C - contrast </li>
+</ul>
+
+<p class=MsoNormal align=center style='text-align:center'><img width=186
+height=85 src="triton_ltsa_files/image020.jpg"></p>
+
+<p class=MsoNormal align=center style='text-align:center'><i><span
+style='font-size:10.0pt'>LTSA plot details</span></i></p>
+
+<h6>Selecting a region of the LTSA for detailed analysis</h6>
+
+<ul style='margin-top:0in' type=disc>
+ <li class=MsoNormal>Advance to an area of interest in the LTSA plot using the
+     advance buttons.</li>
+ <li class=MsoNormal>Click Enlarge button on the Control Window. </li>
+ <li class=MsoNormal>Place the cursor over the LTSA plot. There should be
+     cross-hairs at the cursor location. </li>
+ <li class=MsoNormal>Click the mouse and wait a couple seconds. A spectrogram
+     will be generated below the LTSA plot for the XWAV data corresponding to the
+     selected time.&nbsp; </li>
+</ul>
+
+<p class=MsoNormal align=center style='text-align:center'><img width=190
+height=211 src="triton_ltsa_files/image021.jpg"></p>
+
+<p class=MsoNormal align=center style='text-align:center'><span
+style='font-size:11.0pt'>&nbsp;</span></p>
+
+<ul style='margin-top:0in' type=disc>
+ <li class=MsoNormal>The Control Window will be updated with spectrogram
+     options for the XWAV file opened. These options will be displayed with a
+     light blue background. </li>
+</ul>
+
+<p class=MsoNormal align=center style='text-align:center'><img width=280
+height=479 src="triton_ltsa_files/image022.jpg"></p>
+
+<p class=MsoNormal align=center style='text-align:center'>&nbsp;</p>
+
+<ul style='margin-top:0in' type=disc>
+ <li class=MsoNormal>To generate Timeseries and Spectra plots, click the
+     Timeseries and Spectra buttons in the Control Window. This will load the
+     additional plots in the Plot Window and update the plot options in the
+     Control Window.</li>
+</ul>
+
+<p class=MsoNormal><span style='font-size:11.0pt'>&nbsp;</span></p>
+
+<p class=MsoNormal align=center style='text-align:center'><img width=261
+height=104 src="triton_ltsa_files/image023.gif"></p>
+
+<p class=MsoNormal align=center style='text-align:center'>&nbsp;</p>
+
+<ul style='margin-top:0in' type=disc>
+ <li class=MsoNormal>To display any combination of plots, select or de-select
+     the <b>LTSA</b>, <b>Spectrogram</b>, <b>Timeseries</b>, or <b>Spectra</b>
+     buttons on the Control Window. </li>
+</ul>
+
+<p class=MsoNormal><span style='font-size:11.0pt'>&nbsp;</span></p>
+
+<p class=MsoNormal align=center style='text-align:center'><img width=284
+height=329 src="triton_ltsa_files/image024.gif">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<img width=283 height=328 src="triton_ltsa_files/image025.gif"></p>
+
+<p class=MsoNormal style='margin-left:30.6pt;text-indent:-.25in'><span
+style='font-size:11.0pt'>&nbsp;</span></p>
+
+<ul style='margin-top:0in' type=disc>
+ <li class=MsoNormal>(Note: If you advance through the LTSA, the spectrogram
+     will not be updated until you click Enlarge and select another event of
+     interest in the LTSA plot which will load the corresponding spectrogram.)</li>
+</ul>
+
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,6 @@
+%2007-SOCAL14E October		
+startF    = [49.47 48.93 48.33 47.83];	% Hz	
+endF      = [48.93 48.33 47.83 47.03];	% Hz	
+startT    = [0 1.5 3 4.5];		% s
+endT      = [1.5 3 4.5 10];	% s	
+bandwidth = 2.0;	% Hz	

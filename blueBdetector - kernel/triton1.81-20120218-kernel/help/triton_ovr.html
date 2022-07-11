@@ -1,0 +1,220 @@
+<html>
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+<meta name=Generator content="Microsoft Word 10 (filtered)">
+<title>Triton Overview</title>
+
+<style>
+<!--
+ /* Font Definitions */
+ @font-face
+	{font-family:"MS Mincho";
+	panose-1:2 2 6 9 4 2 5 8 3 4;}
+@font-face
+	{font-family:"\@MS Mincho";
+	panose-1:2 2 6 9 4 2 5 8 3 4;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:12.0pt;
+	font-family:"Times New Roman";}
+h1
+	{margin-top:12.0pt;
+	margin-right:0in;
+	margin-bottom:3.0pt;
+	margin-left:0in;
+	page-break-after:avoid;
+	font-size:16.0pt;
+	font-family:Arial;}
+h3
+	{margin-top:12.0pt;
+	margin-right:0in;
+	margin-bottom:3.0pt;
+	margin-left:0in;
+	page-break-after:avoid;
+	font-size:13.0pt;
+	font-family:Arial;}
+h4
+	{margin-top:12.0pt;
+	margin-right:0in;
+	margin-bottom:3.0pt;
+	margin-left:0in;
+	page-break-after:avoid;
+	font-size:14.0pt;
+	font-family:"Times New Roman";}
+p.MsoFootnoteText, li.MsoFootnoteText, div.MsoFootnoteText
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:10.0pt;
+	font-family:"Times New Roman";}
+span.MsoFootnoteReference
+	{vertical-align:super;}
+a:link, span.MsoHyperlink
+	{color:blue;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{color:blue;
+	text-decoration:underline;}
+pre
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:12.0pt;
+	font-family:"Courier New";}
+span.heading3charchar
+	{font-family:Arial;
+	font-weight:bold;}
+span.heading1char
+	{font-family:Arial;
+	font-weight:bold;}
+span.htmlpreformattedchar
+	{font-family:"Courier New";}
+span.stylefootnotereference11pt
+	{vertical-align:super;}
+@page Section1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.25in 1.0in 1.25in;}
+div.Section1
+	{page:Section1;}
+ /* List Definitions */
+ ol
+	{margin-bottom:0in;}
+ul
+	{margin-bottom:0in;}
+-->
+</style>
+
+</head>
+
+<body lang=EN-US link=blue vlink=blue>
+
+<div class=Section1>
+
+<h1><a name="_Toc174951391">Triton Overview</a></h1>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<h3><a name="oversummary">Summary</a></h3>
+
+<p class=MsoNormal>There were two primary goals with the development of
+Triton.&nbsp; The first was to provide a tool which can be used to evaluate
+acoustic data recorded by Acoustic Recording Packages (ARPs)<a name="_ftnref1"></a><a
+href="#_ftn1" title=""><span class=stylefootnotereference11pt>[1]</span></a>,
+and more recently High-frequency Recording Packages (HARPs)<a name="_ftnref2"></a><a
+href="#_ftn2" title=""><span class=stylefootnotereference11pt>[2]</span></a>.&nbsp;
+These data are<span style='font-size:11.0pt'> </span>typically single channel, long
+duration (up to one year), continuous and scheduled duty-cycle time
+series.&nbsp; The time series data are often transformed to the spectral domain
+for evaluation as power spectra, spectrograms and Long Term Spectral Averages
+(LTSA).&nbsp; Triton provides the necessary tools to quickly review a large
+data set via an easy to use graphical user interface (GUI).&nbsp; </p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>The Second goal behind the development of Triton was to
+provide a basis for additional features and enhancements.&nbsp; For example, event
+detection and classification algorithms are currently being developed for use
+with Triton, utilizing Triton’s data management tools and GUI.&nbsp; </p>
+
+<p class=MsoNormal><span style='font-size:11.0pt'>&nbsp;</span></p>
+
+<p class=MsoNormal><span style='font-size:11.0pt'>&nbsp;</span></p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<h3><a name="overfile">File Types</a></h3>
+
+<ul style='margin-top:0in' type=disc>
+ <li class=MsoNormal>Data from ARPs &amp; HARPs, are formatted into XWAV
+     files.&nbsp; XWAV files are similar to WAV files, but also contain
+     additional header information such as instrument location, depth, name and
+     most importantly, time and date (see Appendix A1 + A2).</li>
+ <li class=MsoNormal>Triton can read standard WAV files including multichannel
+     WAV files (but it can only display one channel at a time).&nbsp; WAV files
+     are typically acoustic time series and include recording parameters like
+     sample rate and bytes per sample.&nbsp; </li>
+ <li class=MsoNormal>Triton also works with Long-Term Spectral Average (LTSA)
+     files.&nbsp; LTSA files are generated from a collection of WAV or XWAV files
+     by averaging spectra over a long time periods and arranging these spectra
+     sequentially as frequency-time spectrogram plots.&nbsp; In addition to
+     providing a quick overview of long-term recordings (for example, hours to
+     weeks can be displayed on a single plot, depending on sample rate), LTSA’s
+     provide a quick and easy link to the finer-scale acoustic data of WAV or
+     XWAV files by simply clicking an event of interest in the LTSA plot (see
+     following LTSA section).&nbsp; </li>
+</ul>
+
+<p class=MsoNormal><span style='font-size:11.0pt'>&nbsp;</span></p>
+
+<p class=MsoNormal><span style='font-size:11.0pt'>&nbsp;</span></p>
+
+<h3><a name="overfeatures">Features</a></h3>
+
+<pre><span style='font-family:"Times New Roman"'>Triton can:</span></pre>
+
+<ul style='margin-top:0in' type=disc>
+ <li class=MsoNormal>Read raw HARP disks, evaluate data timing and make XWAV
+     files</li>
+ <li class=MsoNormal>Generate time series, spectrogram, and spectra plots from
+     WAV and XWAV data files</li>
+ <li class=MsoNormal>Create Long Term Spectral Average (LTSA) files from WAV or
+     XWAV files and plot LTSA’s</li>
+ <li class=MsoNormal>Save individual plots as WAV, XWAV, jpg, or other
+     graphical file types</li>
+ <li class=MsoNormal>Convert ARP *.bin, OBS, and Raw HARP data files to XWAV
+     format</li>
+ <li class=MsoNormal>Decimate high sample rate data files to smaller &amp;
+     lower sample rate XWAVs.&nbsp; For example, for baleen whale call
+     analysis.&nbsp; </li>
+</ul>
+
+<div>
+
+<p class=MsoNormal><br clear=all>
+</p>
+
+<div>
+
+<div>
+
+<div class=MsoNormal>
+
+<hr size=1 width="33%" align=left>
+
+</div>
+
+</div>
+
+</div>
+
+<div id=ftn1>
+
+<p class=MsoFootnoteText><a name="_ftn1"></a><a href="#_ftnref1" title=""><span
+class=MsoFootnoteReference>[1]</span></a> Wiggins, S. M., Autonomous acoustic
+recording packages (ARP’s) for long-term monitoring of whale sounds, Marine
+Technology Society Journal, vol. 37(2), pp. 13-22, 2003.</p>
+
+</div>
+
+<div id=ftn2>
+
+<p class=MsoNormal><a name="_ftn2"></a><a href="#_ftnref2" title=""><span
+class=MsoFootnoteReference>[2]</span></a> <span style='font-size:10.0pt'>Wiggins,
+S. M. and Hildebrand, J. A., High-frequency Acoustic Recording Package (HARP)
+for broad-band, long-term marine mammal monitoring. International Symposium on
+Underwater Technology 2007 and International Workshop on Scientific Use of
+Submarine Cables &amp; Related Technologies 2007, Tokyo, Japan, Institute of
+Electrical and Electronics Engineers, pp. 551-557, 17-20 April, 2007.</span></p>
+
+</div>
+
+</div>
+
+</div>
+
+</body>
+
+</html>

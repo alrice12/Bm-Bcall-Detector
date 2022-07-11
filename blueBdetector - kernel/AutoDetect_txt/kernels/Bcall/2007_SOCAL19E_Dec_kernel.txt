@@ -1,0 +1,6 @@
+%2007-SOCAL site E December		
+startF    = [49.00 48.45 47.94 47.68];	% Hz	
+endF      = [48.45 47.94 47.68 47.00];	% Hz	
+startT    = [0 1.5 3 4.5];		% s
+endT      = [1.5 3 4.5 10];	% s	
+bandwidth = 2.0;	% Hz	

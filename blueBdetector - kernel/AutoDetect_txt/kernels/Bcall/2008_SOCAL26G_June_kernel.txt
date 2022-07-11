@@ -1,0 +1,6 @@
+%2008-SOCAL site G		
+startF    = [49.91 49.25 48.64 47.99];	% Hz	
+endF      = [49.25 48.64 47.99 47.04];	% Hz	
+startT    = [0 1.5 3 4.5];		% s
+endT      = [1.5 3 4.5 10];	% s	
+bandwidth = 2.0;	% Hz	

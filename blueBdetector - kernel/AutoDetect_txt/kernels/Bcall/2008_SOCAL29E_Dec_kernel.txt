@@ -1,0 +1,6 @@
+%2008-SOCAL29E December 
+startF    = [48.67 48.43 47.63 47.26];	% Hz
+endF      = [48.43 47.63 47.26 46.80];	% Hz
+startT    = [0 1.5 3 4.5];		% s
+endT      = [1.5 3 4.5 10];	% s
+bandwidth = 2.0;	% Hz

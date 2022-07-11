@@ -1,0 +1,347 @@
+******Triton Notes*********
+%%%%%%%  Version: 1.81.20111117 BNT %%%%%%%
+fixed a bug where .wav files did not update when the forword or backward button was pressed
+
+----Files Changed:----
+motion.m	(line(s) 38-40, 68-70)
+
+%%%%%%%  Version: 1.81.20111006 BNT %%%%%%%
+fixed a bug where the cursor time display did not display time less than 100us.
+Now it includes time that is 5us.
+
+%%%%%%%  Version: 1.81.20110708 BNT %%%%%%%
+incorporated the receant version of triton1.80.20110629 into the dynamic logger
+
+%%%%%%%  Version: 1.81.20110125 BNT %%%%%%%
+changed some param data. Fixed problems with the dynamic logger
+
+----Files Changed:----
+initparams.m (line(s) 91)
+logcallxls.m
+control_log.m
+
+----Files added----
+log_check.m
+writeEfort.m
+picktime.m
+
+%%%%%%%%%%%%% version 1.80.20110629 BNT %%%%%%%%%%%%
+the correct delimiter values and times will show up on both spectrogram and timeseries plots when working with scheduled data.
+
+----Files Changed:----
+pickxyz.m		(line(s) 111-116, 72-83)
+coorddisp.m		(line(s) 43-49, 138-149)
+
+%%%%%%%%%%%%% version 1.80.20110629 BNT %%%%%%%%%%%%
+corrected the delimiter values in the .rar show the correct times at that certain data. The delimiter now now takes account the length or the rar file instead of the time in the header to input the delimit value
+
+----Files Changed:----
+coorddisp.m		(line(s) 58-69)
+pickxyz.m		(line(s) 56-80)
+wrxwavhd.m		(line(s) 41)
+
+%%%%%%%%%%%%% version 1.80.20110620 BNT %%%%%%%%%%%%
+fixed bug with the save plot as XWAV. It now rounds the plot length to
+the nearest rawfile when writing the data. Does not work correctly with discontinuous .rar files
+
+----Files Changed:----
+wrxwavhd.m		(line(s) 41)
+
+%%%%%%%%%%%%% version 1.80.20110520 BNT (origfix: Bruce) %%%%%%%%
+changes deal with some glitches we've seen in recent compressed data
+
+----Files Changed:----
+decompressRawHRP.m	(replaced)
+plot_specgram.m		(replaced)
+hrp2xwav.m		(replaced)
+
+%%%%%%%%%%%%% version 1.80.20110429 BNT (origfix: SMW) %%%%%%%%
+Updating files in triton, the improvement allows the user to use 'blanks' to fill in characters for the PARAMS. rdxwavhd allows LTSA use with 4 channel HARP XWAV data
+
+----Files Changed:----
+rdxwavhd.m		(replaced)
+write_hrp2xwavs.m	(replaced)
+
+%%%%%%%%%%%%% version 1.80.20110411 BNT (origfix: SMW) %%%%%%%%
+newest hrp2xwav.m (which takes care of 2.02Q clipping problems)
+difftime_dirlist.m which was recently modified to work with 4 channel HARP firmware 2.10L.
+
+
+difftime_dirlist.m	(replaced)
+hrp2xwav.m		(replaced)
+
+%%%%%%%%%%%%% version 1.80.20110324 BNT (origfix: SMW) %%%%%%%%
+----Files Changed:----
+read_ltsahead.m		(replaced)
+
+%%%%%%%%%%%%% version 1.80.20110126 BNT (origfix: SMW) %%%%%%%%
+added code sean gave me
+
+----Files Changed:----
+read_ltsahead.m		(replaced)
+ck_ltsaparams.m		(replaced)
+hrp2xwavs.m		(replaced)
+
+
+%%%%%%%%%%%%% version 1.80.20101214 BNT (origfix: Bruce) %%%%%%%%
+Incorporated the changes that bruce made to the new version of triton
+so now Xwav header files will be truncated to a maximum of 40 chars
+
+----Files Changed:----
+write_hrp2xwavs.m 	(line(s) 148)
+bin2xwav.m		(line(s) 197)
+obs2xwav.m		(line(s) 234-238)
+
+
+%%%%%%%%%%%%% version 1.80.20101213 BNT (origfix: SMW) %%%%%%%%
+Added code sean gave me to decompress hrp files into several xwavs
+
+----Files Changed:----
+initpulldowns.m		(replaced)
+control_ltsa.m		(replaced)
+write_harp2xwavs.m	(replaced)
+write_XWAVhead.m	(replaced)
+toolpd.m		(replaced)
+ckFirmware.m		(replaced)
+
+%%%%%%%%%%%%% version 1.80.20101105 BNT (origfix: SMW) %%%%%%%%
+modified to work with 4 channel data
+
+found and fixed old (at least 4 years old) bug in write_XWAVhead061030, but it worked fine for nch=1
+modified write_XWAVhead061030 for nch=4
+modified write_hrp2xwav070504 for nch=4
+copied readseg100512 from v1.65beta(ie 4chan beta code) to replace readseg060227 to work with 4 channels
+made new code ckFirmware.m to check firmware and set number of channels primarily, 
+but also set compression flags - called from write_hrp2xwav
+----
+LTSA:
+modified for nch=4 (from recently modified for Piel): calc_ltsa, ck_ltsaparams, write_ltsahead
+----
+other fixes which have been sent to Brian, but were implemented in this version for Piel type data:
+read_ltsahead101021, ck_ltsaparams101025, calc_ltsa101019
+
+----Files Changed:----
+write_XWAVhead.m	(replaced)
+write_ltsaparams.m	(replaced)
+ck_ltsaparams.m		(replaced)
+calc_ltsa.m		(replaced)
+write_hrp2xwavs.m	(replaced)
+
+%%%%%%%  Version: 1.80.20101027 BNT %%%%%%%
+Changed the color of the LTSA delimiter from black to white, also fixed the calculations
+so that the delimiter lines are no longer slanted.
+
+----Files Changed:----
+ltsa_delimiter	(line(s) 33-35)
+
+%%%%%%%  Version: 1.80.20101025 BNT %%%%%%%
+replaced triton logger with a more recent version from: Tritonv1.7b.20100426_loggers.
+
+----Files Changed:----
+logcallctrl_hi.m (replaced)
+logcallctrl_lo.m (replaced)
+logcallctrl_mid.m (replaced)
+whichspecies.m	  (replaced)
+initparams.m 	(line(s) 42)
+
+----Files added----
+savexwav.m
+
+
+%%%%%%%  Version: 1.80.20100902 BNT %%%%%%%
+replaced hrp2xwav m file with  newer version sean receantly made.
+
+----Files Changed:----
+hrp2xwav.m	(replaced)
+
+%%%%%%%  Version: 1.80.20100823 BNT %%%%%%%
+replaced hrp2xwav m file with  newer version sean receantly made.
+
+----Files Changed:----
+hrp2xwav.m	(replaced)
+
+%%%%%%%  Version: 1.80.20100819 BNT %%%%%%%
+replaced hrp2xwav m file with  newer version sean receantly made.
+
+----Files Changed:----
+hrp2xwav.m	(replaced)
+
+%%%%%%%  Version: 1.80.20100811 BNT %%%%%%%
+fixed the bugs with the new save paramaters function. It will only be able to save parameters
+when there is at least an LTSA, Xwav or wav file open. Fix a bug with the ltsa,now when no plots
+are viewing an error will not occur. Changed the color of the waitbar to green. Added changes 
+made by sean to fix problems occuring with odd frequency sample rates in LTSA's and Spectrogram
+plots.
+
+----Files Changed:----
+
+filepd.m	(line(s) 140, 190)
+save_cp.m	(line(s) 53-56,96,100, 102, 106, 128-138)
+
+plot_triton.m	(line(s) 14)
+
+calc_ltsa.m	(line(s) 22, 153)
+
+read_ltsahead.m	(line(s) 108, 117)
+mkspecgram.m	(line(s) 19-20)
+
+----Files added----
+loadbar.m
+
+%%%%%%%  Version: 1.80.20100805 BNT %%%%%%%
+fixed the bugs with the new save paramater function so now it will actually load the saved
+.cp file. also added plot length to one of the saved parameters
+----Files Changed:----
+
+initpulldowns.m	(line(s) 158)
+save_cp.m	(line(s) 93,97)
+
+%%%%%%%  Version: 1.80.20100804(ver2.0) BNT %%%%%%%
+same as before only the save parameters function has been moved to the tool pulldown menu
+----Files Changed:----
+initcontrol.m
+filepd.m
+initpulldowns.m	(line(s) 149-164)
+
+%%%%%%%  Version: 1.80.20100804 BNT %%%%%%%
+Added a loading screen when making ltsa's. Fixed the a bug so that matlab will no longer throw 'nonExistentField'
+error message whenever the user opens an LTSA or Xwav. Added a delimiter function for LTSA plots.
+
+----Files Changed:----
+calc_ltsa.m	(line(s) 22, 133, 134, 145)
+coorddisp.m	(line(s) 34, 187-193)
+
+initparams.m	(line(s) 141)
+initcontrol.m	(line(s) 891-905, 911)
+control_ltsa.m	(line(s) 413-419)
+plot_ltsa.m	(line(s) 157-159)
+filepd.m	(line(s) 54)
+
+----Files added----
+ltsa_delimiter.m
+
+%%%%%%%  Version: 1.80.20100728 BNT %%%%%%%
+replaced the old 
+ m-file with the one sean receactly made. Added the help folder from triton beta 1.65.
+
+----Files Changed:----
+hrp2xwav.m	(replaced)
+
+----Files added----
+help folder
+
+%%%%%%%  Version: 1.80.20100721 BNT %%%%%%%
+Fixed the pickXYZ bug so now the cursor moves to the bottom where the newest data is. Added a save
+paramaters function, now triton can load and save parameters or go back to its defaults. The data is sotred in a .cp file which
+can be modified to the users liking.
+
+----Files Changed:----
+disp_pick.m	(line(s) 21-26)
+initcontrol.m	(line(s) 64, 834-894)
+filepd.m	(line(s) 53, 139, 189)
+
+
+----Files added----
+save_cp.m
+findjobj.m
+save.def
+
+%%%%%%%  Version: 1.80.20100714 BNT %%%%%%%
+added some changes made by Sean to increase the number of channels to 33. Took out the close function so that all the windows will
+not close all at once anymore. The LTSA plot will also keep the previous LTSA start and end frequencies if it is able to. 
+
+----Files Changed:----
+initdata.m	(line(s) 105, 107-108, 112-113)
+initwins.m	(line(s) 44,104)
+logcallctrl_hi.m	(line(s) 25)
+logcallctrl_lo.m	(line(s) 24)
+logcallctrl_mid.m	(line(s) 24)
+init_ltsadata.m		(line(s) 17-26)
+read_ltsahead.m		(line(s) 119-122, 131 commented out)
+
+%%%%%%%  Version: 1.80.20100707 BNT %%%%%%%
+took hannah's idea and added the changes she made for reading harp files directories. Added a hotkeys function for the motion
+controls on the plots. The right arrow (-->) moves plot forward and the left (<--) moves it back a step, the up arrow fast forwards
+while the down arrow goes in reverse. To move the LTSA plot it is the same function except the "ctrl" key must be pressed as well 
+
+----Files Changed:----
+read_rawHARPdir.m	(line(s) 94)
+initwins.m		(line(s) 55-58)
+
+----Files added----
+keypress.m
+
+
+%%%%%%%  Version: 1.80.20100628 BNT %%%%%%%
+removed the freq .m files and made one general file called freq.m. Fixed an error being called whenever the bright/contrast slider
+was moved. Made a more generic close window function to close a specific window or all of them
+
+----Files Changed:----
+control.m	(line(s) 135)
+control_ltsa.m	(line(s) 328)
+initwins.m	(line(s) 44,99)
+
+
+----Files added----
+freq.m
+closefigure.m
+
+----Files removed----
+freq1.m
+freq2.m
+freq3.m
+freq4.m
+closelogcalls.m
+
+%%%%%%%  Version: 1.80.20100521 BNT %%%%%%%
+Added triton loggers to the program. Ripped the files from Triton1.7b.20090824_loggers. I suggest combining some of the .m files 
+such as the freq files in a later fix so they are more generalized and thus efficient.
+
+----Files Changed:----
+initpulldowns.m (line(s) 127-143)
+
+----Files added----
+logcallctrl_hi.m
+logcallctrl_lo.m
+logcallctrl_mid.m
+freq1.m
+freq2.m
+freq3.m
+freq4.m
+whichspecies.m
+pickstart.m
+pickend.m
+savejpeg.m
+savewav.m
+geteventnumber.m
+closelogcalls.m
+
+
+%%%%%%%  Version: 1.80.20100514 BNT %%%%%%%
+fixed a bug occuring with the LTSA start Hz though it still need a little more work when changing from current freq1 to a new
+freqmax from a different LTSA file. The WAV plot is now able to save the current end frequeny when opening a new Wav file.
+Fixed the auto forward and backward button on both WAv and LTSA file. 
+
+----Fixes in:----
+initdata.m      (line(s) 81-88)
+motion.m        (line(s) 71-73 & 93-95)
+motion_ltsa.m   (line(s) 72-74 & 93-95)
+init_ltsadata.m (line(s) 16-19)
+
+
+***************************************************************
+%%%%%%%  Version: 1.80.20100510 BNT %%%%%%%
+task 6
+fixed the problems with the plot frequency Axis so that it prints with the correct frequency, also the top frequency is shown
+printing problem was also fixed in the color spectrum bar
+
+----Fixes in:----
+mkspecgram.m    (line(s) 20)
+control_ltsa.m  (line(s) 402)
+plot_ltsa.m     (line(s) 107, 132)
+plot_specgram.m (line(s) 114, 129)
+
+**************************************************************
+
+%%%%%%   version: 1.80.20100501  %%%%%%%
+original copy of the stable version triton1.64.20070724.Used as a starting point for the Beta version of the fixes.

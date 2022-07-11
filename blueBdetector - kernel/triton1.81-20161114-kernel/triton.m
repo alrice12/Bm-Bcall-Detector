@@ -1,0 +1,64 @@
+function triton
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% triton.m
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Triton software package is used to display XWAV and WAV data from HARPs
+% ARPs, and hydrophone arrays as timeseries, spectra, spectrograms and 
+% LTSAs (long-term spectral averages) plots.
+%
+% Various tools are included to convert raw formats to XWAV, decimate 
+% broad-band data, and generate LTSAs.
+%
+% An user-manual is included as a pdf file.
+%
+% Any feedback should be sent to 
+% cetus@ucsd.edu
+%
+% New and archived versions of Triton are available at
+% ftp://cetus.ucsd.edu/outbox/Triton
+%
+
+%
+% subroutines to link with main during compiling 
+% because these are called via 'Callback'
+% note: do NOT name these with capital letters because compiler converts
+% them to small letters and Callback will point to incorrect filename.
+
+%#function filepd
+%#function toolpd
+%#function displaypd
+%#function paramspd
+
+%#function motion
+%#function control
+%#function logcontrol
+
+%#function bin2xwav
+
+%#function helppd
+
+clear global;  % clear out old globals
+clc;        % clear command window  -- not needed for compiled
+%               version, gets a complaint in cmd 'display' window
+close all;  % close all figure windows
+warning off % this is turned off for plotting messages
+
+PARAMS.ver = '1.81.20120218';
+disp(' ')
+disp(['         Triton version ',PARAMS.ver])
+   
+global PARAMS
+
+initparams
+%disp(PARAMS)
+
+initwins
+
+initcontrol
+
+init_coorddisp
+
+initpulldowns

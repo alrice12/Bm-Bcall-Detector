@@ -1,0 +1,6 @@
+%2007-SOCAL site E June		
+startF    = [49.94 49.25 48.60 48.18];	% Hz	
+endF      = [49.25 48.60 48.18 47.30];	% Hz	
+startT    = [0 1.5 3 4.5];		% s
+endT      = [1.5 3 4.5 10];	% s	
+bandwidth = 2.0;	% Hz	

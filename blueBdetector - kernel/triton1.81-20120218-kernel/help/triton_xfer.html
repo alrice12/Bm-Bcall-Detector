@@ -1,0 +1,315 @@
+<html>
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+<meta name=Generator content="Microsoft Word 10 (filtered)">
+<title>Transfer Function</title>
+
+<style>
+<!--
+ /* Font Definitions */
+ @font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:"MS Mincho";
+	panose-1:2 2 6 9 4 2 5 8 3 4;}
+@font-face
+	{font-family:SimSun;
+	panose-1:2 1 6 0 3 1 1 1 1 1;}
+@font-face
+	{font-family:"\@MS Mincho";
+	panose-1:2 2 6 9 4 2 5 8 3 4;}
+@font-face
+	{font-family:"\@SimSun";
+	panose-1:2 1 6 0 3 1 1 1 1 1;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:12.0pt;
+	font-family:"Times New Roman";}
+h1
+	{margin-top:12.0pt;
+	margin-right:0in;
+	margin-bottom:3.0pt;
+	margin-left:0in;
+	page-break-after:avoid;
+	font-size:16.0pt;
+	font-family:Arial;}
+h3
+	{margin-top:12.0pt;
+	margin-right:0in;
+	margin-bottom:3.0pt;
+	margin-left:0in;
+	page-break-after:avoid;
+	font-size:13.0pt;
+	font-family:Arial;}
+p.MsoPlainText, li.MsoPlainText, div.MsoPlainText
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:10.0pt;
+	font-family:"Courier New";}
+span.Heading3CharChar
+	{font-family:Arial;
+	font-weight:bold;}
+span.Heading1Char
+	{font-family:Arial;
+	font-weight:bold;}
+@page Section1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.25in 1.0in 1.25in;}
+div.Section1
+	{page:Section1;}
+ /* List Definitions */
+ ol
+	{margin-bottom:0in;}
+ul
+	{margin-bottom:0in;}
+-->
+</style>
+
+</head>
+
+<body lang=EN-US>
+
+<div class=Section1>
+
+<h1><a name="_Toc174951414">Transfer Function</a></h1>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<h3><a name="xferovr">Transfer Function Overview</a></h3>
+
+<p class=MsoNormal>To make physical measurements, data logging systems can be
+used with sensors.  In the case of a HARP system, pressure (µPa) is measured
+using a hydrophone sensor and the data are stored on hard disk drives. Two main
+conversions occur within this system.  The first is at the hydrophone where
+time-varying pressure is converted to time varying voltage, amplified and
+filtered providing a frequency dependent response to pressure. The second
+conversion is in the data logger where the analog voltage signal is digitized
+and stored.  The details of these conversions are often described in a Transfer
+Function and must be applied in reverse to correct the recorded data back into
+meaningful physical units.  </p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>Since XWAV data files units are in A/D [counts] and the
+physical units of pressure are in [µPa], the transfer function is described as
+1/sensitivity [dB re uPa(rms)^2/counts^2] and is frequency dependent. 
+Currently in Triton, the transfer function is only applied to spectra plots,
+not LTSA, spectrogram nor time series plots.  The transfer function is applied
+to spectra plots via an user generated transfer function (TF) file consisting
+of columns of Frequency [Hz] and 1/sensitivity [dB re uPa(rms)^2/counts^2] in
+an ascii text format with extension *.tf.</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<h3><a name="xfercalc">Transfer Function Calculation</a></h3>
+
+<p class=MsoPlainText><span style='font-size:12.0pt;font-family:"Times New Roman"'>The
+1/sensitivity for a TF file is calculated via the negative of the sum of the
+following four transfer function components:</span></p>
+
+<p class=MsoPlainText><span style='font-size:12.0pt;font-family:"Times New Roman"'>&nbsp;</span></p>
+
+<p class=MsoPlainText style='text-indent:.5in'><span style='font-size:12.0pt;
+font-family:"Times New Roman"'>1) Sensor (Ceramic/PZT/hydrophone) </span></p>
+
+<p class=MsoPlainText style='text-indent:.5in'><span style='font-size:12.0pt;
+font-family:"Times New Roman"'>  [dB re Vrms^2/ uPa(rms)^2] Open Circuit
+Received Response</span></p>
+
+<p class=MsoPlainText><span style='font-size:12.0pt;font-family:"Times New Roman"'>&nbsp;</span></p>
+
+<p class=MsoPlainText style='text-indent:.5in'><span style='font-size:12.0pt;
+font-family:"Times New Roman"'>2) Preamp + Filter Board Gain (usually frequency
+dependent i.e., freq column in TF file)</span></p>
+
+<p class=MsoPlainText style='text-indent:.5in'><span style='font-size:12.0pt;
+font-family:"Times New Roman"'>  [dB]</span></p>
+
+<p class=MsoPlainText><span style='font-size:12.0pt;font-family:"Times New Roman"'>&nbsp;</span></p>
+
+<p class=MsoPlainText style='text-indent:.5in'><span style='font-size:12.0pt;
+font-family:"Times New Roman"'> 3) Analog to Digital Converter (A/D) </span></p>
+
+<p class=MsoPlainText style='text-indent:.5in'><span style='font-size:12.0pt;
+font-family:"Times New Roman"'>  [dB re counts^2/Vp-p ^2]</span></p>
+
+<p class=MsoPlainText><span style='font-size:12.0pt;font-family:"Times New Roman"'>&nbsp;</span></p>
+
+<p class=MsoPlainText style='margin-left:.5in'><span style='font-size:12.0pt;
+font-family:"Times New Roman"'>4) Vp-p / Vrms (This is needed because the TF
+file 1/sensitivity values are applied to the output of the power spectrum. 
+This would not be added if the TF was applied to the time series, directly):</span></p>
+
+<p class=MsoPlainText style='text-indent:.5in'><span style='font-size:12.0pt;
+font-family:"Times New Roman"'>  9.0 [dB re Vp-p^2/Vrms^2] = 10*1og10((1.414 *
+2)^2) </span></p>
+
+<p class=MsoPlainText><span style='font-size:12.0pt;font-family:"Times New Roman"'>&nbsp;</span></p>
+
+<p class=MsoPlainText style='text-indent:.5in'><span style='font-size:12.0pt;
+font-family:"Times New Roman"'>or</span></p>
+
+<p class=MsoPlainText><span style='font-size:12.0pt;font-family:"Times New Roman"'>&nbsp;</span></p>
+
+<p class=MsoPlainText style='text-indent:.5in'><span style='font-size:12.0pt;
+font-family:"Times New Roman"'>Sensitivity = [dB re counts^2 /uPa(rms)^2]  </span></p>
+
+<p class=MsoPlainText><span style='font-size:12.0pt;font-family:"Times New Roman"'>&nbsp;</span></p>
+
+<p class=MsoPlainText><span style='font-size:12.0pt;font-family:"Times New Roman"'>&nbsp;</span></p>
+
+<p class=MsoPlainText style='text-indent:.5in'><span style='font-size:12.0pt;
+font-family:"Times New Roman"'>+ [dB re Vrms^2/uPa^2]                      Sensor</span></p>
+
+<p class=MsoPlainText style='text-indent:.5in'><span style='font-size:12.0pt;
+font-family:"Times New Roman"'>+ [dB]                                                  Preamp+Filter
+Gain</span></p>
+
+<p class=MsoPlainText style='text-indent:.5in'><span style='font-size:12.0pt;
+font-family:"Times New Roman"'>+ [dB re counts^2/Vp-p ^2]                 A/D
+converter</span></p>
+
+<p class=MsoPlainText style='text-indent:.5in'><span style='font-size:12.0pt;
+font-family:"Times New Roman"'>+ 9.0 [dB re Vp-p^2/Vrms^2]             Vp-p/Vrms</span></p>
+
+<p class=MsoPlainText><span style='font-size:12.0pt;font-family:"Times New Roman"'>&nbsp;</span></p>
+
+<p class=MsoPlainText><b><span style='font-size:12.0pt;font-family:"Times New Roman"'>Example
+Transfer Function calculation:</span></b></p>
+
+<p class=MsoPlainText style='text-indent:.5in'><span style='font-size:12.0pt;
+font-family:"Times New Roman"'>AQ-1 &amp; 1042: ~ -200 dB re Vrms/uPa(rms)</span></p>
+
+<p class=MsoPlainText style='text-indent:.5in'><span style='font-size:12.0pt;
+font-family:"Times New Roman"'>400 series board: +40+15 dB low / +80 dB high</span></p>
+
+<p class=MsoPlainText style='text-indent:.5in'><span style='font-size:12.0pt;
+font-family:"Times New Roman"'>A/D: +82 dB re counts^2/Vp-p^2</span></p>
+
+<p class=MsoPlainText style='text-indent:.5in'><span style='font-size:12.0pt;
+font-family:"Times New Roman"'>p-p2rms: +9 dB re Vp-p^2/Vrms^2</span></p>
+
+<p class=MsoPlainText><span style='font-size:12.0pt;font-family:"Times New Roman"'>&nbsp;</span></p>
+
+<p class=MsoPlainText style='text-indent:.5in'><span style='font-size:12.0pt;
+font-family:"Times New Roman"'>= -(-200 +55/+80 +82 +9) = +54/+29 dB re uPa(rms)/counts^2</span></p>
+
+<p class=MsoPlainText><span style='font-size:12.0pt;font-family:"Times New Roman"'>&nbsp;</span></p>
+
+<p class=MsoPlainText style='text-indent:.5in'><b><span style='font-size:12.0pt;
+font-family:"Times New Roman"'>Important: </span></b><span style='font-size:
+12.0pt;font-family:"Times New Roman"'>Don't forget it's the negative of the sum
+of the sensitivity to get the units correct for 1/sensitivity.</span></p>
+
+<p class=MsoPlainText><span style='font-size:12.0pt;font-family:"Times New Roman"'>&nbsp;</span></p>
+
+<p class=MsoPlainText style='text-indent:.5in'><span style='font-size:12.0pt;
+font-family:"Times New Roman"'>For more detailed description of TF calculations
+see Triton subroutine loadTF.m.</span></p>
+
+<p class=MsoPlainText><span style='font-size:12.0pt;font-family:"Times New Roman"'>&nbsp;</span></p>
+
+<p class=MsoPlainText><span style='font-size:12.0pt;font-family:"Times New Roman"'>&nbsp;</span></p>
+
+<span style='font-size:12.0pt;font-family:"Times New Roman"'><br clear=all
+style='page-break-before:always'>
+</span>
+
+<p class=MsoPlainText><span style='font-size:12.0pt;font-family:"Times New Roman"'>&nbsp;</span></p>
+
+<h3><a name="xferapply">Applying Transfer Functions</a></h3>
+
+<ul style='margin-top:0in' type=disc>
+ <li class=MsoNormal>Open an XWAV file (if not already opened)</li>
+</ul>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<ul style='margin-top:0in' type=disc>
+ <li class=MsoNormal>Click the ‘Load Transfer Function File’ under the control
+     file pull-down menu.</li>
+</ul>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal align=center style='text-align:center'><img width=181
+height=212 src="triton_xfer_files/image001.jpg"></p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<ul style='margin-top:0in' type=disc>
+ <li class=MsoNormal>Choose the transfer function file and select ‘Open’.</li>
+</ul>
+
+<p class=MsoNormal style='text-indent:.5in'>The transfer function is now
+loaded, but not applied </p>
+
+<p class=MsoNormal style='text-indent:.5in'>&nbsp;</p>
+
+<p class=MsoNormal align=center style='text-align:center'><img width=315
+height=200 src="triton_xfer_files/image002.jpg"></p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<ul style='margin-top:0in' type=disc>
+ <li class=MsoNormal>Turn on Spectra (turn off LTSA, Spectrogram, and Timeseries)
+     with the toggle buttons.  </li>
+</ul>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal align=center style='text-align:center'><img width=338
+height=65 src="triton_xfer_files/image003.jpg"></p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<ul style='margin-top:0in' type=disc>
+ <li class=MsoNormal>Set Spectral parameters in the Control Window.  Set FFT
+     Length to the sample rate to get 1 Hz bins for spectra level.  </li>
+</ul>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal align=center style='text-align:center'><img width=269
+height=313 src="triton_xfer_files/image004.jpg"></p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<ul style='margin-top:0in' type=disc>
+ <li class=MsoNormal>In the Control Window, toggle the TF on button.</li>
+</ul>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal align=center style='text-align:center'><img width=339
+height=32 src="triton_xfer_files/image005.jpg"></p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<ul style='margin-top:0in' type=disc>
+ <li class=MsoNormal>Notice the change in spectral shape between TF on and TF
+     off.  </li>
+</ul>
+
+<p class=MsoNormal style='text-indent:.5in'>&nbsp;</p>
+
+<p class=MsoNormal align=center style='text-align:center'><img width=269
+height=313 src="triton_xfer_files/image006.jpg"></p>
+
+</div>
+
+</body>
+
+</html>

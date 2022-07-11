@@ -1,0 +1,6 @@
+%2007-SOCAL19G October new code
+startF    = [49.73 47.69 46.67 46.58];	% Hz
+endF      = [47.69 46.67 46.58 45.58];	% Hz
+startT    = [0 1.5 3 4.5];		% s
+endT      = [1.5 3 4.5 10];	% s
+bandwidth = 2.0;	% Hz

@@ -1,0 +1,1453 @@
+package dbxml.uploader;
+
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Rectangle;
+import java.awt.Component;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.dnd.*;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.io.File;
+import java.net.URL;
+import java.util.List;
+import java.util.Vector;
+
+import javax.swing.Box;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.JTextArea;
+import javax.swing.JButton;
+import javax.swing.SwingConstants;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.plaf.metal.MetalComboBoxEditor;
+import javax.swing.JTabbedPane;
+import javax.swing.ImageIcon;
+import javax.swing.JComponent;
+import javax.swing.JFileChooser;
+import javax.swing.JCheckBox;
+import javax.swing.JOptionPane;
+import javax.swing.JProgressBar;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JPasswordField;
+import javax.swing.JScrollPane;
+import javax.swing.SwingUtilities;
+import javax.swing.Timer;
+import javax.swing.UIManager;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.JToolBar;
+
+import com.sun.jersey.api.client.ClientHandlerException;
+
+import net.miginfocom.swing.MigLayout;
+
+
+
+
+
+import dbxml.JerseyClient;
+import dbxml.Queries;
+import dbxml.uploader.ProgressMonitor.State;
+
+
+
+public class ImportFrame extends JFrame{
+
+	//Supposed to have one of these for Serializables
+	private static final long serialVersionUID = 1L;
+		
+	//Components
+	//Main pane
+	private JPanel contentPane;
+	
+	//Destination/URI area
+	private JPanel uriPanel;
+	private JLabel lblURL;
+	private JTextField url;
+	private JLabel lblImportMap;
+	private JComboBox importMapBox;
+	private JLabel lblSpeciesAbbreviations;
+	private JComboBox speciesAbbreviationsBox;
+	private JLabel lblCollection;
+	private JComboBox collection;
+	private JButton btnUpload;
+	private JButton btnClearLog;
+	
+	//the rest
+	private JPanel odbcFileSubmit;
+	private JTextField fileFilename;
+	private JTextField odbcSourceName;
+	private JPasswordField passwordField;
+	private JTextField connectionString;
+	private JCheckBox fileOverwrite;
+	private JButton odbcFileSelect;
+	private JCheckBox odbcFileOverwrite;
+	private JComboBox odbcDataSourceType;
+	private JTabbedPane parserType;
+	private JTextAreaWriter[] logWriters = new JTextAreaWriter[3];
+	private JTextArea odbcLog;
+	private JTabbedPane odbcTabs;
+	private JButton btnAddSource;
+	private JTextArea fileLog;
+	private JPanel panelSource;
+	private JButton btnViewXml;
+	private JButton btnXAll;
+	private JScrollPane sourcesLogPane;
+	private JTextArea sourcesLog;
+	private JToolBar toolBarSources;
+	private JScrollPane scrollPaneSources;
+	private JPanel panelSources;
+	private JComboBox comboBoxSourceType;
+	JProgressBar progressBar;
+	String docname;
+	UploadWorker worker;
+	
+	// settings
+	private String workingDir = null;
+	private File targetFile;
+
+	//data
+	private int totalkBytes;
+	private int totalkBSent;
+	private long totalBytes;
+	
+	//finals
+	private int startBytes = 0;
+	
+	final static String [] connectionDefaults = new String [] {
+			"Provider=None;Driver={MySQL ODBC 5.1 ANSI Driver};Server=<*ServerName*>;Database=HarpDB;Port=3306;User=<*UserName*>;Password=<*Password*>;Option=None;",  // MySQL
+			"DBQ=<*PathToFileOnServer*>;Driver={Microsoft Access Driver (*.mdb, *.accdb)}", // Access
+			"",	// Generic connection string
+			//"C:\\", file (not used yet)
+		};
+	final String sppDefault = "Select to populate known Abbreviations";
+	final String sourceMapDefault = "Select to populate known SourceMaps";
+	final String noConnect = "Cannot connect to %s"; //add tethysUrl
+	final String progrstring = "%s -- %d of %d kBytes sent....";
+	final int FILE = 0;//source combobox selector
+	
+	enum Map{
+		IMPORT,
+		ABBREVIATION
+	}
+	final int SOURCE_MAP = 24; //map combobox type
+	final int SPP_ABBREV = 42; //abbrev combobox type
+
+	
+	//list for comboboxes
+	private Vector<String> sourceMapList = new Vector<String>(2,0);
+	private Vector<String> sppAbbrevList = new Vector<String>(2,0);
+	
+	//list of sources
+	//private LinkedList<SourcePanel> sources = new LinkedList<SourcePanel>();
+	private SpecWriter writer = new SpecWriter();
+	private JTextField tfDocName;
+	private Component horizontalGlue_1;
+
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				ImportFrame frame = new ImportFrame("http://127.0.0.1:9779", 
+						"");
+				frame.addWindowListener(new WindowListener(){
+					@Override
+					public void windowClosed(WindowEvent arg0) {
+						// Terminate the JVM to end inprogress uploads
+						System.exit(0);
+					}
+					@Override
+					public void windowActivated(WindowEvent arg0) {}
+					@Override
+					public void windowClosing(WindowEvent arg0) {}
+					@Override
+					public void windowDeactivated(WindowEvent arg0) {}
+					@Override
+					public void windowDeiconified(WindowEvent arg0) {}
+					@Override
+					public void windowIconified(WindowEvent arg0) {}
+					@Override
+					public void windowOpened(WindowEvent arg0) {}
+					
+				});
+				frame.setVisible(true);
+			}
+		});
+	}
+
+	public static void launch(final String URL, final String dir) {
+		SwingUtilities.invokeLater(new Runnable() {
+			
+			public void run() {
+				ImportFrame frame = new ImportFrame(URL, dir);
+				frame.pack();
+				frame.setVisible(true);
+				Dimension min = new Dimension(475,500);
+				frame.setMinimumSize(min);
+			}
+		});		
+	}
+	
+	/**
+	 * Create the frame.
+	 */
+	
+	public ImportFrame() {
+		createComponents(null, null);
+	}
+
+	public ImportFrame(String URL, String dir) {
+		createComponents(URL, dir);
+	}
+
+
+	private void createComponents(String defaultURL, String dir) {
+
+		// Set icon if we can find it.
+		URL iconUrl = getClass().getClassLoader().getResource("Tethys.png");
+		if (iconUrl != null) { 
+			ImageIcon icon = new ImageIcon(iconUrl);
+			if (icon != null)
+				this.setIconImage(icon.getImage());
+		}
+		
+		setNativeLookAndFeel();
+		//ProgressBar
+		progressBar = new JProgressBar();
+		progressBar.addPropertyChangeListener(new HTTPListener());
+		
+		setTitle("Tethys Import Metadata");
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setBounds(100, 100, 546, 719);
+		
+		//Main pane
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(new MigLayout("fill", "[520px]", "[133px][524px][14px]"));
+		
+		uriPanel = new JPanel();
+		contentPane.add(uriPanel, "cell 0 0,growx,aligny top");
+		uriPanel.setLayout(new MigLayout("", "[][][]", "[20px][18px][18px][18px][23px]"));
+		
+		lblURL = new JLabel("Tethys Server");
+		uriPanel.add(lblURL, "cell 0 0,alignx right,aligny center");
+		
+		url = new JTextField();
+		url.setColumns(80);
+		url.setToolTipText("http:// or https:// address of Tethys server");
+		uriPanel.add(url, "cell 1 0 4 1,growx,aligny top");
+		if (defaultURL != null)
+			url.setText(defaultURL);
+		
+		lblCollection = new JLabel("Collection");
+		uriPanel.add(lblCollection, "cell 0 1,alignx right,aligny center");
+		
+		collection = new JComboBox();
+		collection.setModel(new DefaultComboBoxModel(new String[] {
+				"Calibrations","Deployments", "Detections", "Ensembles", 
+				"Localizations", "SourceMaps", "SpeciesAbbreviations"}));
+		collection.setEditable(true);
+		collection.setSelectedIndex(2);
+		uriPanel.add(collection, "cell 1 1 4 1,growx,aligny center");
+		
+		lblImportMap = new JLabel("Import map");
+		uriPanel.add(lblImportMap, "cell 0 2,alignx right,aligny center");
+		
+		//initialise the comboxlists
+		initializeComboLists();
+		importMapBox = new JComboBox(sourceMapList);
+		importMapBox.setEditable(true);
+		importMapBox.setEditor(new MetalComboBoxEditor());
+		
+		//hack I found to remove ugly border around comboboxes
+		for (int i = 0; i < importMapBox.getComponentCount(); i++) 
+		{
+		    if (importMapBox.getComponent(i) instanceof JComponent) {
+		        ((JComponent) importMapBox.getComponent(i)).setBorder(new EmptyBorder(0, 0,0,0));
+		    }
+
+		}
+		
+		importMapBox.setToolTipText("This list will be populated based on the server at the URL provided");
+		//populate list with sourcemaps on click
+
+		importMapBox.addActionListener(new ComboListener(Map.IMPORT));
+		uriPanel.add(importMapBox, "cell 1 2 4 1,growx,aligny center");
+		
+		lblSpeciesAbbreviations = new JLabel("Species Abbreviations");
+		uriPanel.add(lblSpeciesAbbreviations, "cell 0 3,alignx right,aligny center");
+		
+
+		
+
+		/*
+		 * Species Abbreviation box
+		 */
+		speciesAbbreviationsBox = new JComboBox(sppAbbrevList);
+		speciesAbbreviationsBox.setEditable(true);
+		//make the editor Metal so that color change works
+		speciesAbbreviationsBox.setEditor(new MetalComboBoxEditor());
+		//remove border from metal editor
+		for (int i = 0; i < speciesAbbreviationsBox.getComponentCount(); i++) 
+		{
+		    if (speciesAbbreviationsBox.getComponent(i) instanceof JComponent) {
+		        ((JComponent) speciesAbbreviationsBox.getComponent(i)).setBorder(new EmptyBorder(0, 0,0,0));
+		    }
+		}
+		speciesAbbreviationsBox.addActionListener(new ComboListener(Map.ABBREVIATION));
+		uriPanel.add(speciesAbbreviationsBox, "cell 1 3 4 1,growx,aligny center");
+		
+		
+    	//Submit button
+		btnUpload = new JButton("Submit to Tethys");
+		uriPanel.add(btnUpload, "cell 1 4,growx,aligny center");
+		
+		btnUpload.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent event) {
+				url.setBackground(Color.WHITE);
+				btnUpload.setEnabled(false);
+				String uri = url.getText();
+				String targetCollection = (String) collection.getSelectedItem();
+				
+				
+				// Determine which type of import we are doing.
+				int parser = parserType.getSelectedIndex();
+
+				// Create an upload worker
+				 worker = new UploadWorker(uri, targetCollection, logWriters[parser],progressBar);
+				 worker.setSpecWriter(new SpecWriter());
+
+
+				boolean overwrite;
+				
+				switch (parser) {
+				case 0:
+					// Regular file import
+					overwrite = fileOverwrite.isSelected();
+					if (targetFile == null){
+						JOptionPane.showMessageDialog(ImportFrame.this, "Choose a file first!");
+						btnUpload.setEnabled(true);
+						return;
+					}
+					worker.setImport(targetFile);
+					worker.setOverwrite(overwrite);
+					if(targetFile.isDirectory())
+						worker.setImportType(UploadWorker.ImportMethods.DIR);
+					else
+						worker.setImportType(UploadWorker.ImportMethods.FILE);
+					break;
+
+				case 1:
+					// ODBC import
+					int odbcmethod = odbcTabs.getSelectedIndex();
+					switch (odbcmethod) 
+					{
+					case 0:
+						// File import
+						if (targetFile == null){
+							JOptionPane.showMessageDialog(ImportFrame.this, "Choose a file first!");
+							break;
+						}						
+						overwrite = odbcFileOverwrite.isSelected();
+						worker.setOverwrite(overwrite);
+						worker.setImport(targetFile);
+						worker.setImportType(UploadWorker.ImportMethods.ODBCFILE);
+						break;
+					case 1:
+						// networked resource
+						//String datatype = (String) odbcDataSourceType.getSelectedItem();
+						String connection = connectionString.getText();
+						// It is not recommended to put a password into a string
+						// as this goes into Java's garbage collection field
+						// todo:  Change so that the whole chain takes an array
+						// of characters, but this needs to be propagated all
+						// the way down to the Jersey API... (todo)
+						String password = new String(passwordField.getPassword());
+
+						// Update connection string with password if present
+						if (password.length() > 0) {
+							String terminator = ";";
+							if (! connection.endsWith(terminator))
+								connection = connection + terminator;
+							connection = connection + "Password=" + password + ";";
+						}
+						
+						worker.setConnectionString(connection);
+						worker.setImportType(UploadWorker.ImportMethods.ODBCNETWORKED);
+						break;
+					} // end odbcmethod switch 							
+					break;
+				
+				case 2:
+					//TODO multiple sources
+					
+					
+				} // end parser switch
+				
+				
+				//Set abbreviations/import maps
+				String dataImportMap = (String) importMapBox.getSelectedItem();
+				if (useField(dataImportMap))
+						worker.setImportMap(dataImportMap);
+				
+				String speciesTranslation = (String) speciesAbbreviationsBox.getSelectedItem();
+				if (useField(speciesTranslation))
+						worker.setSpeciesAbbreviationMap(speciesTranslation);
+				
+				
+				
+				// Create a timer that polls every N ms to see if 
+				// the UploadWorker is done.  After a maximum amount
+				// of time, the button is reenabled regardless.
+				
+				// Listener class for timer
+				class TimerListener implements ActionListener {
+					private int countdown;
+					@SuppressWarnings("unused")
+					private Timer timer;
+					
+					/**
+					 * TimerListener, constructor
+					 * @param count - Number of times the timer will fire
+					 * 				  before reenabling the button even
+					 * 				  if the task has not finished.
+					 * 
+					 */
+					TimerListener(int count) {
+						countdown = count;
+						timer = null;
+					}
+					
+					/**
+					 * turnOffTimerWhenFinished
+					 * Specify the timer that will be disabled when
+					 * we have reenabled the button.
+					 * @param t
+					 */
+					public void turnOffTimerWhenFinished(Timer t) {
+						timer = t;
+					}
+					
+					/**
+					 * actionPerformed
+					 * @parms e - Event
+					 */
+					public void actionPerformed(ActionEvent e) {
+						
+						// Upload complete?
+						boolean fin = worker.isDone();
+						if (! fin) {
+							countdown--;
+							if (countdown <= 0)
+								fin = true;		// too many tries, abandon					
+						}
+						
+						if (fin) {
+							// All done, shut off the timer that called us
+							Timer t = (Timer) e.getSource();
+							t.setRepeats(false);
+							btnUpload.setEnabled(true);  // let someone upload the next one
+						}
+					}
+				};
+				
+				double poll_time_ms = 300;
+				double max_time_s = 30;
+				int count = (int) (max_time_s / poll_time_ms * 1000.0);
+				TimerListener listener = new TimerListener(count);
+				Timer timer = new Timer((int) poll_time_ms, listener);
+				listener.turnOffTimerWhenFinished(timer);
+				
+				worker.execute();
+				
+				timer.setRepeats(true);
+				timer.start();
+				
+			}
+		});
+		
+		
+		//Clear Button
+		btnClearLog = new JButton("Clear log");
+		btnClearLog.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent event) 
+			{
+				// Determine which import pane is selected and clear it
+				int parser = parserType.getSelectedIndex();
+				logWriters[parser].clear();
+				progressBar.setValue(0);
+				progressBar.setString("");
+			};				
+		});
+		uriPanel.add(btnClearLog, "cell 2 4,alignx right,aligny center");
+		
+		//Pane for tabs
+		parserType = new JTabbedPane(JTabbedPane.TOP);
+		contentPane.add(parserType, "cell 0 1,grow");
+		
+		
+		//add progressBar
+		contentPane.add(progressBar, "cell 0 2,growx,aligny top");
+		
+		//TODO query xls document for parser name?
+
+		//File import tab
+		JPanel panelFile = new JPanel();
+		parserType.addTab("File import ", null, panelFile, null);
+		panelFile.setLayout(new MigLayout("", "[][grow][]", "[]2[grow]2"));
+		
+		JButton fileSelection = new JButton("File");
+		panelFile.add(fileSelection, "cell 0 0,growx,aligny top");
+		fileSelection.setVerticalAlignment(SwingConstants.TOP);
+		fileSelection.setHorizontalAlignment(SwingConstants.LEFT);
+		fileSelection.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				// todo - allow one to call Import specifying a directory
+				// add to constructor
+				JFileChooser chooser;
+				if (workingDir != null)
+					chooser = new JFileChooser(workingDir);
+				else
+					chooser = new JFileChooser(workingDir);
+
+				// Specify known extensions - last one goes first
+				
+				// XML
+				String[] xml_ext = {"xml"};
+				DialogFileFilter xml_flt = new DialogFileFilter(xml_ext,
+						"eXtended Markup Language");
+				chooser.addChoosableFileFilter(xml_flt);
+				// Workbook/CSV
+				String[] spreadsheet_ext = { "xls", "xlsx", "csv" };
+				DialogFileFilter spreadsheet_flt = 
+						new DialogFileFilter(spreadsheet_ext,
+								"Workbook/comma separated values");
+				chooser.addChoosableFileFilter(spreadsheet_flt);
+					
+				chooser.setFileHidingEnabled(false);
+				chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+				chooser.setMultiSelectionEnabled(false);
+				chooser.setDialogType(JFileChooser.OPEN_DIALOG);
+				chooser.setDialogTitle("Select document to import");
+
+				int result = chooser.showOpenDialog(ImportFrame.this);
+				if (result == JFileChooser.APPROVE_OPTION) {
+					targetFile = chooser.getSelectedFile();
+					fileFilename.setText(targetFile.toString());
+				}
+			}
+		});
+		
+		fileOverwrite = new JCheckBox("Overwrite existing?");
+		panelFile.add(fileOverwrite, "cell 2 0,alignx center,aligny top");
+		
+		fileFilename = new JTextField();
+		//DragNDrop handling
+		fileFilename.setDropTarget(new DropTarget(){
+		    /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			public synchronized void drop(DropTargetDropEvent evt) {
+		        try {
+		            evt.acceptDrop(DnDConstants.ACTION_COPY);
+		            @SuppressWarnings("unchecked")
+					List<File> droppedFiles = (List<File>)
+		                evt.getTransferable().getTransferData(DataFlavor.javaFileListFlavor);
+		            for (File file : droppedFiles) {
+		                fileFilename.setText(file.getPath());
+		                targetFile = file;
+		            }
+		        } catch (java.awt.datatransfer.UnsupportedFlavorException e){
+		        	JFrame frame = new JFrame();
+		        	JOptionPane.showMessageDialog(frame, "Unrecognized file type\nPlease extract archived files.","Drag n Drop Error", JOptionPane.ERROR_MESSAGE);
+		        } catch (Exception ex) {
+		            ex.printStackTrace();
+		        }
+		    }
+		});
+		fileFilename.setHorizontalAlignment(SwingConstants.LEFT);
+		panelFile.add(fileFilename, "cell 1 0,growx,aligny center");
+		
+		
+		fileLog = new JTextArea();
+		fileLog.setEditable(false);
+		//DnD in log area
+		fileLog.setDropTarget(new DropTarget(){
+		    /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			public synchronized void drop(DropTargetDropEvent evt) {
+		        try {
+		            evt.acceptDrop(DnDConstants.ACTION_COPY);
+		            @SuppressWarnings("unchecked")
+					List<File> droppedFiles = (List<File>)
+		                evt.getTransferable().getTransferData(DataFlavor.javaFileListFlavor);
+		            for (File file : droppedFiles) {
+		                fileFilename.setText(file.getPath());
+		                targetFile = file;
+		            }
+		        } catch (java.awt.datatransfer.UnsupportedFlavorException e){
+		        	JFrame frame = new JFrame();
+		        	JOptionPane.showMessageDialog(frame, "Unrecognized file type\nPlease extract archived files.","Error", JOptionPane.ERROR_MESSAGE);
+		        } catch (Exception ex) {
+		            ex.printStackTrace();
+		        }
+		    }
+		});
+		
+		//log pane area
+		JScrollPane fileLogPane = new JScrollPane(fileLog,
+				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		logWriters[0] = new JTextAreaWriter(fileLog);		
+		panelFile.add(fileLogPane, "cell 0 1 3 1,grow");
+		
+		
+		
+		//Advanced - ODBC Tab
+		JPanel panelAdvanced = new JPanel();
+		parserType.addTab("Advanced - Open Database Connectivity (ODBC)", null, panelAdvanced, null);
+		
+		odbcTabs = new JTabbedPane(JTabbedPane.BOTTOM);
+		
+		
+		
+		odbcFileSubmit = new JPanel();
+		odbcTabs.addTab("ODBC file access", null, odbcFileSubmit, null);
+		
+		odbcFileSelect = new JButton("File");
+		odbcFileSelect.setHorizontalAlignment(SwingConstants.LEFT);
+		odbcFileSelect.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				JFileChooser chooser;
+				if (workingDir != null)
+					chooser = new JFileChooser(workingDir);
+				else
+					chooser = new JFileChooser(workingDir);
+
+				// Specify known extensions - last one goes first
+
+				// Microsoft Access Database 
+				String[] access_ext = {"mdb", "accdb"};
+				DialogFileFilter access_flt = new DialogFileFilter(access_ext,
+						"Microsoft Access database");
+				chooser.addChoosableFileFilter(access_flt);
+				
+				// XML
+				String[] xml_ext = {"xml"};
+				DialogFileFilter xml_flt = new DialogFileFilter(xml_ext,
+						"eXtended Markup Language");
+				chooser.addChoosableFileFilter(xml_flt);
+				// Workbook/CSV
+				String[] spreadsheet_ext = { "xls", "xlsx", "csv" };
+				DialogFileFilter spreadsheet_flt = 
+						new DialogFileFilter(spreadsheet_ext,
+								"Workbook/comma separated values");
+				chooser.addChoosableFileFilter(spreadsheet_flt);
+					
+				chooser.setFileHidingEnabled(false);
+				chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+				chooser.setMultiSelectionEnabled(false);
+				chooser.setDialogType(JFileChooser.OPEN_DIALOG);
+				chooser.setDialogTitle("Select document to import");
+
+				int result = chooser.showOpenDialog(ImportFrame.this);
+				if (result == JFileChooser.APPROVE_OPTION) {
+					targetFile = chooser.getSelectedFile();
+					odbcSourceName.setText(targetFile.toString());
+				}
+			}
+		});
+		
+		odbcSourceName = new JTextField();
+		odbcSourceName.setHorizontalAlignment(SwingConstants.LEFT);
+		//DragnDrop
+		odbcSourceName.setDropTarget(new DropTarget(){
+		    /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			public synchronized void drop(DropTargetDropEvent evt) {
+		        try {
+		            evt.acceptDrop(DnDConstants.ACTION_COPY);
+		            @SuppressWarnings("unchecked")
+					List<File> droppedFiles = (List<File>)
+		                evt.getTransferable().getTransferData(DataFlavor.javaFileListFlavor);
+		            for (File file : droppedFiles) {
+		                odbcSourceName.setText(file.getPath());
+		                targetFile = file;
+		            }
+		        } catch (Exception ex) {
+		            ex.printStackTrace();
+		        }
+		    }
+		});
+		odbcSourceName.setColumns(60);
+		
+		odbcFileOverwrite = new JCheckBox("Overwrite existing?");
+		GroupLayout gl_odbcFileSubmit = new GroupLayout(odbcFileSubmit);
+		gl_odbcFileSubmit.setHorizontalGroup(
+			gl_odbcFileSubmit.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_odbcFileSubmit.createSequentialGroup()
+					.addGap(5)
+					.addComponent(odbcFileSelect)
+					.addGap(5)
+					.addComponent(odbcSourceName, GroupLayout.DEFAULT_SIZE, 272, Short.MAX_VALUE)
+					.addGap(18)
+					.addComponent(odbcFileOverwrite))
+		);
+		gl_odbcFileSubmit.setVerticalGroup(
+			gl_odbcFileSubmit.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_odbcFileSubmit.createSequentialGroup()
+					.addGroup(gl_odbcFileSubmit.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_odbcFileSubmit.createSequentialGroup()
+							.addGap(5)
+							.addComponent(odbcFileSelect))
+						.addGroup(gl_odbcFileSubmit.createSequentialGroup()
+							.addGap(5)
+							.addComponent(odbcFileOverwrite))
+						.addGroup(gl_odbcFileSubmit.createSequentialGroup()
+							.addGap(6)
+							.addComponent(odbcSourceName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+					.addContainerGap(45, Short.MAX_VALUE))
+		);
+		odbcFileSubmit.setLayout(gl_odbcFileSubmit);
+		
+		JPanel odbcNetworked = new JPanel();
+		odbcTabs.addTab("ODBC networked resource access", null, odbcNetworked, null);
+		
+		//connection string stuff
+		connectionString = new JTextField();
+		connectionString.setHorizontalAlignment(SwingConstants.LEFT);
+		connectionString.setColumns(10);
+		int defaultODBCType = 0;
+		connectionString.setText(connectionDefaults[defaultODBCType]);
+		
+		
+		//ODBC Dropdown menu (combobox)
+		odbcDataSourceType = new JComboBox();
+		odbcDataSourceType.setModel(new DefaultComboBoxModel(new String[] {"MySQL", "MicrosoftAccess", "ODBC Connection String"}));
+
+		ActionListener odbcNetworkResourceTypeAction = new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// update connection string based on current type
+				int idx = odbcDataSourceType.getSelectedIndex();
+				connectionString.setText(connectionDefaults[idx]);
+			}
+		};
+		odbcDataSourceType.setSelectedIndex(defaultODBCType);
+		odbcDataSourceType.addActionListener(odbcNetworkResourceTypeAction);
+		
+
+		
+		JLabel lblPassword = new JLabel("Password");
+		lblPassword.setHorizontalAlignment(SwingConstants.LEFT);
+		
+		passwordField = new JPasswordField();
+		passwordField.setColumns(40);
+		passwordField.setHorizontalAlignment(SwingConstants.LEFT);
+		passwordField.setToolTipText("Database access password");
+		
+		JLabel lblConnectionString = new JLabel("Connection String");
+		odbcNetworked.setLayout(new MigLayout("insets 0", "[85px][18px][407px]", "[19px][22px][25px]"));
+		odbcNetworked.add(odbcDataSourceType, "cell 0 0 3 1,alignx left,growy");
+		odbcNetworked.add(lblConnectionString, "cell 0 2,alignx left,aligny center");
+		odbcNetworked.add(lblPassword, "cell 0 1,alignx left,aligny center");
+		odbcNetworked.add(passwordField, "cell 2 1,growx,aligny top");
+		odbcNetworked.add(connectionString, "cell 2 2,growx,aligny top");
+		
+		odbcLog = new JTextArea();
+		//DnDrop
+		odbcLog.setDropTarget(new DropTarget(){
+		    /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			public synchronized void drop(DropTargetDropEvent evt) {
+		        try {
+		            evt.acceptDrop(DnDConstants.ACTION_COPY);
+		            @SuppressWarnings("unchecked")
+					List<File> droppedFiles = (List<File>)
+		                evt.getTransferable().getTransferData(DataFlavor.javaFileListFlavor);
+		            for (File file : droppedFiles) {
+		                odbcSourceName.setText(file.getPath());
+		                targetFile = file;
+		            }
+		        } catch (Exception ex) {
+		            ex.printStackTrace();
+		        }
+		    }
+		});
+		JScrollPane odbcLogPane = new JScrollPane(odbcLog,
+				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		logWriters[1] = new JTextAreaWriter(odbcLog);
+		panelAdvanced.setLayout(new MigLayout("", "[503px]", "[98px]2[373px]2"));
+		panelAdvanced.add(odbcTabs, "cell 0 0,grow");
+		panelAdvanced.add(odbcLogPane, "cell 0 1,grow");
+		
+		panelSource = new JPanel();
+		
+		//TODO log writer!
+		//Commented out for this release
+		//parserType.addTab("Multiple Sources", null, panelSource, null);
+		MigLayout ml_panelSource = new MigLayout("flowy", "[grow,fill]", "[]2[grow,top]2");
+		panelSource.setLayout(ml_panelSource);
+		
+		toolBarSources = new JToolBar();
+		toolBarSources.setFloatable(false);
+		panelSource.add(toolBarSources,"cell 0 0,grow");
+
+		btnAddSource = new JButton("");
+		//add icon
+		iconUrl = getClass().getClassLoader().getResource("add.png");
+		if (iconUrl != null) { 
+			ImageIcon icon = new ImageIcon(iconUrl);
+			if (icon != null)
+				btnAddSource.setIcon(icon);
+		}
+		
+
+		comboBoxSourceType = new JComboBox();
+		comboBoxSourceType.setModel(new DefaultComboBoxModel(new String[] {"File", "ODBC", "MySQL", "MSAccess"}));
+		comboBoxSourceType.setMaximumSize(new Dimension(80,20));
+
+		
+		btnAddSource.addActionListener(new SourceAdd(this.comboBoxSourceType));
+		btnAddSource.setMaximumSize(new Dimension(40,20));
+		toolBarSources.add(btnAddSource);
+		
+		toolBarSources.add(comboBoxSourceType);
+		
+		//separator = new JSeparator();
+		//separator.setVisible(false);
+		//separator.setOrientation(SwingConstants.VERTICAL);
+		//toolBarSources.add(separator);
+
+		btnViewXml = new JButton("View XML");
+		btnViewXml.setToolTipText("Display the import specification that is sent to the server");
+		btnViewXml.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				//TODO: display xml
+				writer.setOverwrite(fileOverwrite.isSelected());
+				writer.setSppAbbrev((String) speciesAbbreviationsBox.getSelectedItem());
+				writer.setSrcMap((String) importMapBox.getSelectedItem());
+				try{
+					XmlFrame frame = new XmlFrame(writer,new Rectangle(500,100,400,300));
+					frame.setVisible(true);
+				}catch (Exception e){
+					e.printStackTrace();
+				}
+
+			}
+		});
+
+		tfDocName = new JTextField();
+		tfDocName.setToolTipText("Name of document to be submitted");
+		tfDocName.setText("Document Name");
+		tfDocName.setColumns(30);
+		tfDocName.setMaximumSize(new Dimension(300,20));
+		tfDocName.setMinimumSize(new Dimension(100,20));
+		toolBarSources.addSeparator();
+		toolBarSources.add(tfDocName);
+		
+		horizontalGlue_1 = Box.createHorizontalGlue();
+		toolBarSources.add(horizontalGlue_1);
+		
+		btnViewXml.setMaximumSize(new Dimension(160,20));
+		toolBarSources.add(btnViewXml, "cell 1 0,alignx center");
+		toolBarSources.addSeparator(new Dimension(10,20));
+		
+		btnXAll = new JButton("All");
+		
+		btnXAll.addActionListener(new SourceRemAll());
+		
+		//add icon
+		iconUrl = getClass().getClassLoader().getResource("x.png");
+		if (iconUrl != null) { 
+			ImageIcon icon = new ImageIcon(iconUrl);
+			if (icon != null)
+				btnXAll.setIcon(icon);
+		}
+		
+		btnXAll.setIconTextGap(1);
+		btnXAll.setMaximumSize(new Dimension(140,20));
+		toolBarSources.add(btnXAll, "cell 2 0");
+		
+		scrollPaneSources = new JScrollPane();
+		scrollPaneSources.setVisible(false);
+		scrollPaneSources.setMinimumSize(new Dimension(0, 0));
+		//paneSources.setPreferredSize(new Dimension(0,0));
+		panelSource.add(scrollPaneSources,"hidemode 3,cell 0 1,alignx center,height 0%::30%,aligny top");
+		
+		panelSources = new JPanel();
+		//Add a source when dropped.
+		panelSources.setDropTarget(new DropTarget(){
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			public synchronized void drop(DropTargetDropEvent evt) {
+		        try {
+		            evt.acceptDrop(DnDConstants.ACTION_COPY);
+		            @SuppressWarnings("unchecked")
+					List<File> droppedFiles = (List<File>)
+		                evt.getTransferable().getTransferData(DataFlavor.javaFileListFlavor);
+		            for (File file : droppedFiles) {
+		            	//add File sources for each          
+		                final SourcePanel sP = new SourcePanel(FILE);
+		                sP.setText(file.getPath());
+						
+						
+						//add an actionlistener to the delete button
+						sP.btnDelete.addActionListener(new SourceRem(sP));
+						//no need for property change listeners as these are files
+						
+						String constraints= "growx, gap,hmax 30";
+						panelSources.add(sP,constraints);
+						panelSources.revalidate();
+						panelSources.repaint();
+						if (!scrollPaneSources.isVisible())
+							scrollPaneSources.setVisible(true);
+						writer.add(sP);		
+						repaint();
+						//if user hasn't entered a docname, populate it automatically from first source
+						if (!useField(tfDocName.getText())){
+							File f= new File(writer.getFirstSource());
+							tfDocName.setText(f.getName());
+						}
+		            }
+		            
+		            
+		        } catch (java.awt.datatransfer.UnsupportedFlavorException e){
+		        	JOptionPane.showMessageDialog(ImportFrame.this, "Unrecognized file type\nPlease extract archived files.","Drag-and-drop Error", JOptionPane.ERROR_MESSAGE);
+		        } catch (Exception ex) {
+		            ex.printStackTrace();
+		        }
+		        
+
+		    }
+		});
+
+		scrollPaneSources.setViewportView(panelSources);
+		panelSources.setLayout(new MigLayout("fillx, flowy,aligny top,gap 0 1", "[grow]", "2[0px::42px]2"));
+		panelSources.setMinimumSize(new Dimension(0,0));
+		
+
+		
+
+
+		
+		sourcesLogPane = new JScrollPane();
+		panelSource.add(sourcesLogPane, "cell 0 1 3 1,grow");
+		
+		sourcesLog = new JTextArea();
+		logWriters[2]= new JTextAreaWriter(sourcesLog);
+		sourcesLog.setDropTarget(new DropTarget(){
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			public synchronized void drop(DropTargetDropEvent evt) {
+		        try {
+		            evt.acceptDrop(DnDConstants.ACTION_COPY);
+		            @SuppressWarnings("unchecked")
+					List<File> droppedFiles = (List<File>)
+		                evt.getTransferable().getTransferData(DataFlavor.javaFileListFlavor);
+		            for (File file : droppedFiles) {
+		            	//add File sources for each          
+		                final SourcePanel sP = new SourcePanel(FILE);
+		                sP.setText(file.getPath());
+						
+						
+						//add an actionlistener to the delete button
+						sP.btnDelete.addActionListener(new SourceRem(sP));
+						//no need for property change listeners as these are files
+						
+						String constraints= "growx, gap,hmax 30";
+						panelSources.add(sP,constraints);
+						panelSources.revalidate();
+						panelSources.repaint();
+						if (!scrollPaneSources.isVisible())
+							scrollPaneSources.setVisible(true);
+						writer.add(sP);		
+						repaint();
+						//if user hasn't entered a docname, populate it automatically from first source
+						if (!useField(tfDocName.getText())){
+							File f= new File(writer.getFirstSource());
+							tfDocName.setText(f.getName());
+						}
+
+		            }
+		        } catch (java.awt.datatransfer.UnsupportedFlavorException e){
+		        	JOptionPane.showMessageDialog(ImportFrame.this, "Unrecognized file type\nPlease extract archived files.","Drag-and-drop Error", JOptionPane.ERROR_MESSAGE);
+		        } catch (Exception ex) {
+		            ex.printStackTrace();
+		        }
+		    }
+		});
+		sourcesLog.setEditable(false);
+		sourcesLogPane.setViewportView(sourcesLog);
+
+	}
+	
+	
+
+	
+	private void initializeComboLists() {
+		if(!sourceMapList.isEmpty()){
+			sourceMapList.clear();
+		}
+		sourceMapList.add("");
+		sourceMapList.add(sourceMapDefault);
+		
+		if(!sppAbbrevList.isEmpty()){
+			sppAbbrevList.clear();
+		}
+		sppAbbrevList.add("");
+		sppAbbrevList.add(sppDefault);
+		
+	}
+
+
+	/*
+	 * ACTION LISTENER CLASSES
+	 * TODO: move to ListnerFactory
+	 */
+	
+	
+	class ConnectDelayListener implements ActionListener{
+		ActionListener boxActionListener;
+		JComboBox mapBox;
+		ConnectDelayListener(ActionListener listener, JComboBox box){
+			mapBox = box;
+			boxActionListener = listener;
+		}
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			//time is up, revert list to default
+			//Timer t = (Timer) arg0.getSource();
+			JTextField text = ((JTextField) mapBox.getEditor().getEditorComponent());
+			text.setBackground(Color.WHITE);
+			url.setBackground(Color.WHITE);
+			//remove the box's action listener to not fire this event
+			mapBox.removeActionListener(mapBox.getActionListeners()[0]);
+			//remove warning message
+			mapBox.removeItemAt(2);
+			//add the listener back
+			mapBox.addActionListener(boxActionListener);
+		}
+
+
+	};
+	
+	/**
+	 * Listener for combobox selections
+	 * @author seano
+	 *
+	 */
+	class ComboListener implements ActionListener {
+		private String query;
+		@SuppressWarnings("unused")
+		String defaultSelection;
+		Vector<String> comboItems;
+		/**
+		 * Constructor for listener
+		 * @param type - 24 for import, 1 for species abbrev
+		 */
+		
+		ComboListener(Map type){
+			switch (type){
+			case IMPORT: 
+					 defaultSelection = sourceMapDefault;
+					 query = "collection(\"SourceMaps\")/Mapping/Name";
+					 comboItems = sourceMapList;
+					 break;
+			case ABBREVIATION:
+					 defaultSelection = sppDefault;
+				     query = "collection(\"SpeciesAbbreviations\")/ty:Abbreviations/Name";
+				     comboItems = sppAbbrevList;
+					 break;
+			}
+			
+			
+		}
+		public void actionPerformed(ActionEvent arg0) {
+			boolean debug = false;
+			if (debug)
+				System.out.println("Event detected, ID: "+(Integer)arg0.getID()+"\n"+
+								   "Command: "+arg0.getActionCommand());
+			final JComboBox mapBox = (JComboBox)arg0.getSource();
+			if (mapBox.getSelectedIndex()==1){
+				//get info from tethys
+				JerseyClient c = null;	
+				String tethysURL = url.getText().toLowerCase();
+				if (! (tethysURL.startsWith("http://") || 
+						tethysURL.startsWith("https://")))
+					tethysURL = "http://" + tethysURL;
+				try{
+					c = new JerseyClient(tethysURL);
+				}catch (RuntimeException e){
+					url.setBackground(Color.YELLOW);
+				}
+				Queries q = new Queries(c);
+				comboItems.setSize(2);
+				try {
+					String maps = q.QueryTethys(query);
+					String[] parsed = maps.split("<.*?>");
+					url.setBackground(Color.WHITE);
+					//clear the vector by setting its size to 1
+					//This retains the default query item
+					
+					//set the size to amount of source maps, +1 for default item
+					comboItems.setSize(parsed.length/2 + 2);
+					//Add maps from the parsed query array.
+					//first element empty, second element the content, third is NL
+					//add the content to the list
+					int bIdx = 2;
+					for (int i = 1; i<parsed.length; i= i+2){
+						comboItems.setElementAt(parsed[i],bIdx);
+						bIdx++;
+					}
+					//set it to the first map found
+					mapBox.setSelectedIndex(2);
+				} catch (ClientHandlerException e) {
+					JTextField text = ((JTextField) mapBox.getEditor().getEditorComponent());
+					text.setBackground(Color.YELLOW);
+					//add warning message
+					mapBox.addItem(String.format(noConnect,tethysURL));
+					//show the new message for some time
+					mapBox.setSelectedIndex(2);
+					
+					//Create a timer to display 'cannot connect' msg for a while, before
+					//reverting back to default
+					int delay_ms=3500;
+					ConnectDelayListener listener = new ConnectDelayListener(this,mapBox);
+					Timer timer = new Timer(delay_ms,listener);
+					timer.setRepeats(false);
+					timer.start();
+					//end client handler catch
+				}catch (Exception e){
+					e.printStackTrace();
+					System.out.println("*******************\n\n "
+							+ "something went wrong. e-mail stack trace to sherbert@ucsd.edu");
+					System.exit(0);
+				}
+				
+			}
+		}
+	}
+
+	//ActionListener for source-add button
+	class SourceAdd implements ActionListener{
+		JComboBox type;
+
+		public SourceAdd(JComboBox selection){
+			this.type = selection;
+		}
+
+		public void actionPerformed(ActionEvent e) {
+			//Instantiate a Source Panel and add it to the Frame
+			//Also add it to the linked list to keep track of sources
+			//panelSources.revalidate();
+			//panelSources.repaint();
+			final SourcePanel sP = new SourcePanel(type.getSelectedIndex());
+			
+			
+			//add an actionlistener to the delete button
+			sP.btnDelete.addActionListener(new SourceRem(sP));
+			
+			//property change listener for the panel
+			//this changes the revealing states of login fields
+			//and repaints these panels
+			//gfx changes are called from the EVT ;) i hope
+			sP.addPropertyChangeListener("login", new PropertyChangeListener(){
+				@Override
+				public void propertyChange(PropertyChangeEvent p) {
+					SourcePanel innerPanel =(SourcePanel) p.getSource();
+					int state =  (Integer) p.getNewValue();
+					innerPanel.reveal(state);
+					innerPanel.revalidate();
+					panelSources.revalidate();
+					panelSources.repaint();
+					panelSource.revalidate();
+					panelSource.repaint();
+					repaint();
+				}
+			});
+			
+			String constraints;
+			//Perhaps future types
+			switch (type.getSelectedIndex()){
+			case 0: //file
+				constraints = "growx, gap,hmax 30";
+				break;
+			default://network, need bigger h
+				constraints = "growx,gap,";
+				break;
+			}
+			panelSources.add(sP,constraints);
+			panelSources.revalidate();
+			panelSources.repaint();
+			if (!scrollPaneSources.isVisible())
+				scrollPaneSources.setVisible(true);
+			writer.add(sP);				
+			repaint();
+		}
+
+	}
+	
+	//Listener for the remove single source button
+	class SourceRem implements ActionListener{
+		/**
+		 * Remove a specified source
+		 */
+		SourcePanel removeMe;
+		public SourceRem(SourcePanel sp){
+			removeMe = sp;
+		}
+		public void actionPerformed(ActionEvent e){
+			//remove it from the container
+			panelSources.remove(removeMe);
+			//remove it from the linked list
+			writer.remove(removeMe);
+			
+			//if no more sources, shrink and hide the pane
+			if (!writer.hasSources())
+				scrollPaneSources.setVisible(false);
+			panelSources.repaint();
+			repaint();
+		}
+	}
+	
+	//Listener for the remove all sources button
+	class SourceRemAll implements ActionListener{
+		public void actionPerformed(ActionEvent e){
+			tfDocName.setText("Document Name");
+			if(writer.hasSources()){
+				//remove every source from panel
+				panelSources.removeAll();
+				scrollPaneSources.setVisible(false);
+				//remove every source from sources list
+				writer.clearSources();
+			}//else don't do anything
+			repaint();
+		}
+	}
+	
+
+	
+	
+	/*
+	 * PROGRESS BAR METHODS
+	 */
+	
+	//TODO percentages, directory + filename if dir else filename
+	
+	
+	//Listener for HTTP transmission
+	class HTTPListener implements PropertyChangeListener{
+
+		@Override
+		public void propertyChange(PropertyChangeEvent e) {
+			String property = e.getPropertyName();
+			if(property.equals("bytes")){
+				totalBytes = (Long) e.getNewValue();
+				totalkBytes = (int) Math.ceil(totalBytes/1024.0);
+			}else if(property.equals("state")){
+				State state = (State) e.getNewValue();
+				switch(state){
+					case STARTED:	progressInit();
+								 	break;
+					case SENDING:	progressSending();
+									break;
+					case ATTACHING: progressAttach();
+									break;
+					case STREAMING: progressStream();
+									break;
+					case SENT:		progressSent();
+    	    						break;
+					case FINISHED:  progressFinished();
+			    					break;
+				}
+			}else if(property.equals("kBSent")){
+				progressUpdate();
+			}
+		}
+		
+	}
+	
+	
+	
+	/**
+	 * Initializes the progress bar
+	 * @param bytes - total number of bytes being transferred
+	 * @param name - name of the file or document
+	 */
+	
+	private void progressInit() {
+		
+		//TODO calculate total bytes, if sending multiple files
+		docname = targetFile.getName();
+		totalkBSent = 0;
+		totalkBytes = (int) Math.ceil(totalBytes/1024.0);
+		
+		//Do the EDT stuff 
+		SwingUtilities.invokeLater(new Runnable(){
+			@Override
+			public void run() {
+				//System.out.println("progressInit()");
+				progressBar.setIndeterminate(false);
+				progressBar.setMaximum(100);
+				progressBar.setValue(0);
+				progressBar.setString(String.format(progrstring,docname,startBytes,totalkBytes));
+				progressBar.setStringPainted(true);
+			}
+		});
+	}
+	
+	private void progressSending(){
+		SwingUtilities.invokeLater(new Runnable(){
+			@Override
+			public void run() {
+				if(progressBar.isIndeterminate())
+					progressBar.setIndeterminate(false);		
+			}
+		});
+	}
+
+	private void progressUpdate(){
+		final int kBSent = (Integer)progressBar.getClientProperty("kBSent");
+		
+		SwingUtilities.invokeLater(new Runnable(){
+			@Override
+			public void run() {
+				//revert back to normal if its indeterminate here
+				//this happens when submitting mutliple files
+				progressBar.putClientProperty("state", State.SENDING);
+				double sentSoFar = kBSent+totalkBSent;
+				double total = totalkBytes;
+				double percent = (sentSoFar/total)*100;
+				progressBar.setValue((int)percent);
+				progressBar.setString(String.format(progrstring,docname,totalkBSent+kBSent,totalkBytes));
+		    	if (kBSent >= worker.getFileKBytes()){
+		    		totalkBSent = totalkBSent + kBSent;
+		    		//System.out.println("totalkBSent: "+kBSent);
+		    		progressBar.putClientProperty("state",State.SENT);
+		    	}	
+			}
+		});
+	}
+	
+	private void progressAttach(){
+		SwingUtilities.invokeLater(new Runnable(){
+			@Override
+			public void run() {
+				progressBar.setIndeterminate(true);
+				progressBar.setString("Attempting to process attachments...");
+			}
+		});
+	}
+	
+	private void progressStream(){
+		SwingUtilities.invokeLater(new Runnable(){
+			@Override
+			public void run() {
+				progressBar.setIndeterminate(true);
+				progressBar.setString("Streaming data to Tethys...");
+			}
+		});
+	}
+
+	private void progressSent(){
+		//System.out.println("progressSent()");
+		SwingUtilities.invokeLater(new Runnable(){
+			@Override
+			public void run() {
+				progressBar.setIndeterminate(true);
+				progressBar.setString("File sent! Tethys is processing the data...");
+			}
+		});
+	}
+	
+	private void progressFinished(){
+		totalkBSent = 0;
+		SwingUtilities.invokeLater(new Runnable(){
+			@Override
+			public void run() {
+				progressBar.setValue(0);
+				progressBar.setIndeterminate(false);
+				progressBar.setString("Finished Working");
+			}
+		});	
+	}
+
+	
+	
+	//L&F
+	public void setNativeLookAndFeel() {
+		try {
+			UIManager.setLookAndFeel(UIManager
+					.getSystemLookAndFeelClassName());
+		} catch (Exception e) {
+		}
+	}
+
+	public void setJavaLookAndFeel() {
+		try {
+			UIManager.setLookAndFeel(UIManager
+					.getCrossPlatformLookAndFeelClassName());
+		} catch (Exception e) {
+		}
+	}
+
+	public void setMotifLookAndFeel() {
+		try {
+			UIManager.setLookAndFeel(
+					"com.sun.java.swing.plaf.motif.MotifLookAndFeel");
+		} catch (Exception e) {
+		}
+	}
+	
+
+	/**
+	 * useField - Determine whether or not a map field should be 
+	 * used.  
+	 * @param field - field contents
+	 * @return boolean
+	 */
+	private boolean useField(String field) {
+		String lcField = field.toLowerCase();
+		return (
+				! lcField.equals("document name") &&
+				! lcField.contains("not applicable") &&
+				! lcField.contains("select to populate known") &&
+				! lcField.contains("embedded in data") &&
+				lcField.compareTo("") != 0
+				);
+		
+	}
+
+}

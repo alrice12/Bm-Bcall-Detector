@@ -1,0 +1,6 @@
+%2007-SOCAL26G new code
+startF    = [48.96 47.91 47.02 46.40];	% Hz
+endF      = [47.91 47.02 46.40 45.57];	% Hz
+startT    = [0 1.5 3 4.5];		% s
+endT      = [1.5 3 4.5 10];	% s
+bandwidth = 2.0;	% Hz

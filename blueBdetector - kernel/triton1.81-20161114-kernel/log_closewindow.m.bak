@@ -1,0 +1,105 @@
+function log_closewindow(src,evnt)
+% src is the figure number
+global handles PARAMS
+
+if (src >= 1 && src <= 3) || src == 5
+    % User attempted to close one of Triton's main windows
+    % or the logger window
+    
+    if strcmp(PARAMS.log.pick, 'effort_end') && src == 5
+        % User is attempting to close the log and hit the close button
+        % abort ending the log
+        set(handles.log.close, 'Visible', 'off');
+        set(handles.log.control, 'Visible', 'on');
+        PARAMS.log.pick = 'timeXfreq';  % Pick time freq nodes
+        return
+    end
+    options = {};
+    
+    %  Find last detection
+    colStart = excelColumn(find(~cellfun(@isempty, ...
+        strfind(handles.OnEffort.Headers, 'Start time'))) -1);
+    colEnd =  excelColumn(find(~cellfun(@isempty, ...
+        strfind(handles.OnEffort.Headers, 'End time')))-1);
+    lastRow = log_lastRow(handles.OnEffort.Sheet);
+    lastDateStr = 'NA';
+    if lastRow < 2
+        handles.log.lastDate = [];  % no detections recorded
+        last = [];
+    else
+        lastDateRange = handles.OnEffort.Sheet.Range(...
+            sprintf('%s2:%s%d,%s2:%s%d', ...
+            colStart, colStart, lastRow, ...
+            colEnd, colEnd, lastRow));
+        handles.log.lastDate = ...
+            handles.Server.WorksheetFunction.Max(lastDateRange) + ...
+            date_epoch('excel');
+        
+        lastDateStr = datestr(handles.log.lastDate, ...
+            'yyyy/mm/dd HH:MM:SS');
+    
+        last = sprintf('Latest pick: %s', lastDateStr);
+        options{end+1} = last;
+    end
+
+    % Is there a current end date from a previous session?
+    endCol = find(strcmp(handles.Meta.Headers, 'Effort End'), 1, 'first');
+    endDate = get(handles.Meta.Sheet.Range(...
+                    sprintf('%s2', excelColumn(endCol-1))), 'Value');
+    endDateStr = 'NA';
+    handles.log.endDate = [];
+    if ~ isnan(endDate)
+        if ischar(endDate)
+            endDate = datenum(endDate);
+        else
+            endDate = endDate + date_epoch('excel');
+        end
+        
+        % Make the last recorded end of effort be an option if we have not
+        % detected anything past the end.
+        if isempty(last) || endDate >= handles.log.lastDate
+            endDateStr = datestr(endDate, 'yyyy/mm/dd HH:MM:SS');
+            previousEnd = sprintf('Existing:  %s', endDateStr);
+            handles.log.endDate = endDate;
+            options{end+1} = previousEnd;
+        end
+    else
+        previousEnd = [];
+    end
+    
+    
+    terminate = questdlg(...
+        'End logging session.  Denote end of effort by or close to cancel:', ...
+        'End logging session', ...
+        options{:}, 'Let me specify', 'Let me specify');
+
+    
+    switch terminate
+        case ''  % User closed the dialog box
+            return
+        
+        case last
+            log_close(handles.log.lastDate);
+            return
+            
+        case previousEnd
+            log_close(handles.log.endDate)
+            return
+            
+        case 'Let me specify'
+            set(handles.log.control, 'Visible', 'off');
+            set(handles.log.close, 'Visible', 'on');
+            
+            % Update text boxes for last pick and previous end
+            set(handles.end_previous.disp, 'String', lastDateStr);
+            set(handles.end_pick.disp, 'String', endDateStr);
+
+            PARAMS.log.pick = 'effort_end';
+            set(handles.done, 'String', 'Close log', ...
+                'Callback', {@control_log, 'set_meta_end'});
+            return
+            
+
+            
+    end
+end

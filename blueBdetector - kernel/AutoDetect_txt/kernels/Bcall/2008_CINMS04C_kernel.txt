@@ -1,0 +1,7 @@
+% Define the spectrogram correlation kernel:
+%2008
+startF    = [48.8 47.1 46.4 46.0];	% Hz
+endF      = [47.1 46.4 46.0 45.4];	% Hz
+startT    = [0 1.5 3 4.5];		% s
+endT      = [1.5 3 4.5 10];	% s
+bandwidth = 2.0;	% Hz
