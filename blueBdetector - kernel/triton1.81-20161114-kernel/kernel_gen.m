@@ -49,7 +49,9 @@ Call(3) = nanmean(FreqNew(floor(3/timestep):ceil(3/timestep))); %3s
 Call(4) = nanmean(FreqNew(floor(4.5/timestep):ceil(4.5/timestep))); %4.5s
 Call(5) = nanmean(FreqNew(floor(10/timestep):ceil(10/timestep))); %10s
 
-newMatFile = ['GofAKCB09_Bcall.mat'];
+numfile = length(dir('G:\SOCAL\Report 2021-2022\B call detector\kernel\72H')) - 1;
+filename = sprintf('SOCALH_72_Bcall_%d.mat', numfile);
+newMatFile = fullfile('G:\SOCAL\Report 2021-2022\B call detector\kernel\72H\', filename);
 save(newMatFile,'Call');
 disp(['B call characteristics calculated and saved.']);
 
